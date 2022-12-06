@@ -1,6 +1,6 @@
 # Create a bucket
-# Upload function.zip
-# Deploy function
+# Upload function.zip --> +
+# Deploy function --> +
 # create a trigger
 # policy binding
 
@@ -25,8 +25,19 @@ resource "google_storage_bucket" "func_cf" {
   location = "US"
 }
 
-resource "google_storage_bucket_object" "srccode" {
+resource "google_storage_bucket_object" "function_code_archive" {
   name = "function"
-  source = "function/function.zip"
+  source = "function.zip"
   bucket = google_storage_bucket.func_cf.name
+}
+
+resource "google_cloudfunctions_function" "func_cf_tf" {
+  name = "func_cf_tf"
+  source_archive_bucket = google_storage_bucket.func_cf.name
+  source_archive_object = google_storage_bucket_object.function_code_archive.name
+  available_memory_mb = 128
+  entry_point         = "main"
+  runtime             = "python38"
+  trigger_http = true
+  timeout               = 540
 }
