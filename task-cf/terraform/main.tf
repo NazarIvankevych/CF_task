@@ -39,5 +39,5 @@ resource "google_cloudfunctions_function" "func_cf_tf" {
   entry_point         = "main"
   runtime             = "python38"
   trigger_http = true
-  timeout               = 540
+  timeout = 540
 }
