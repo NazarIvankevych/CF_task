@@ -100,7 +100,7 @@ resource "google_bigquery_table" "task-cf-table" {
 resource "google_cloudbuild_trigger" "github-trigger" {
   project  = var.project_id
   name     = "github-updates-trigger"
-  filename = "cloudbuild.yaml"
+  filename = "../cloudbuild.yaml"
   github {
     owner = " NazarIvankevych"
     name  = "CF_task"
