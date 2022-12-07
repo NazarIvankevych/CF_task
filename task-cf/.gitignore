@@ -1,1 +1,9 @@
-./venv/
+# dirs
+venv/
+.idea/
+terraform/.terraform/
+
+# files
+.DS_Store
+gcp_creds.txt
+../exa

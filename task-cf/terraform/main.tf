@@ -32,7 +32,7 @@ resource "google_storage_bucket" "task-cf-bucket" {
 
 data "archive_file" "source" {
   type        = "zip"
-  source_dir = "./function"
+  source_dir = "../function"
   output_path = "/tmp/function.zip"
 }
 
@@ -90,7 +90,7 @@ resource "google_bigquery_dataset" "task-cf-dataset" {
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
-  schema     = file("/task-cf/schemas/bq_table_schema/task-cf-raw.json")
+  schema     = file("../schemas/bq_table_schema/task-cf-raw.json")
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset

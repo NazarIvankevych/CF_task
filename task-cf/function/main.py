@@ -47,8 +47,8 @@ def main(request):
         timestamp = time.time()
         dataset = f"{PROJECT_ID}.{OUTPUT_TABLE}"
         store_data_into_bq(dataset,
-                           convert_timestamp_to_sql_date_time(timestamp),
-                           event)
+                            convert_timestamp_to_sql_date_time(timestamp),
+                            event)
 
         return "", 204
 
