@@ -29,3 +29,6 @@ class PubSubPublisher:
         except Exception as err:  # pylint: disable=broad-except
             logging.error(f"Unexpected error: {str(err)}")  # pylint: disable=E1205
             return False
+
+def main():
+    PubSubPublisher().publish()
