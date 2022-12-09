@@ -10,10 +10,6 @@ terraform {
       source = "hashicorp/google"
       version = "4.44.1"
     }
-  # }
-  # backend "gcp" {
-  #   prefix = "/task-cf"
-  # }
   }
 }
 
@@ -98,14 +94,18 @@ resource "google_bigquery_table" "task-cf-table" {
 }
 
 resource "google_cloudbuild_trigger" "github-trigger" {
+  # location = var.region
+
   project  = var.project_id
   name     = "github-updates-trigger"
-  filename = "../cloudbuild.yaml"
+  filename = "cloudbuild.yaml"
   github {
     owner = " NazarIvankevych"
     name  = "CF_task"
     push {
-      branch = "^master"
+      branch = "^master$"
     }
   }
 }
+
+# TODO: need to fix issue with github repo, which must be work from terraform config file. 
