@@ -5,27 +5,55 @@ substitutions:
   _TF_ACTION: 'apply'
 
 steps:
-  - id: 'pre-deployment-checks'
-    name: 'gcr.io/some-project/common-build'
-    dir: '${_PY_DIR}'
+  - id: 'auth'
+    name: gcloud
     args:
-      - 'python3'
-      - '_DOCKER_TAG=3.8'
-      - '_LINT_OMIT_FILES=tests/*'
-    env:
-      - 'TF_ACTION=$_TF_ACTION'
+      - "auth application-default login"
 
-  - id: 'tf plan/apply'
-    name: 'gcr.io/some-project/terragrunt'
-    dir: '${_TF_DIR}'
+  - id: 'tf init'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
     args:
-      - '${_TF_ACTION}'
-    env:
-      - 'PULL_REQUEST_ID=$_PR_NUMBER'
-      - 'BRANCH=$BRANCH_NAME'
-      - 'EXECUTOR=terragrunt'
-      - 'BACKEND_PREFIX=task-cf'
+      - '-c'
+      - 'terraform init -upgrade'
 
+  - id: 'tf plan'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform plan -out=plan.out'
+  
+  - id: 'tf apply'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'terraform apply plan.out'
+  
+  # - id: 'tf destroy'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args:
+  #     - '-c'
+  #     - 'terraform plan -destroy -out=plan.out'
+
+  # - id: 'tf destroy plan'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args:
+  #     - '-c'
+  #     - 'terraform apply plan.out'
+  
+#  - id: 'tf destroy'
+#    name: 'hashicorp/terraform:1.0.0'
+#    entrypoint: sh
+#    args:
+#      - '-c'
+#      - 'terraform destroy -auto-approve'
 options:
-  substitution_option: 'ALLOW_LOOSE'
-tags: ['service-${_APP}-${_TF_ACTION}']
+  logging: CLOUD_LOGGING_ONLY
+
+# options:
+#   substitution_option: 'ALLOW_LOOSE'
+#tags: ['service-${_APP}-${_TF_ACTION}']

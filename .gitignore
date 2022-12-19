@@ -4,5 +4,4 @@ venv/
 terraform/.terraform/
 
 # files
-.DS_Store
 gcp_creds.txt
