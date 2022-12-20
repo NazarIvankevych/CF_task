@@ -1,0 +1,34 @@
+substitutions:
+  _APP: 'task-cf'
+  _PY_DIR: 'cf-tasks/function'
+  _TF_DIR: 'task-cf'
+  _TF_ACTION: 'apply'
+
+steps:
+  - id: 'pre-deployment-checks'
+    name: 'gcr.io/cloud-builder/terraform'
+    dir: '${_PY_DIR}'
+    args:
+      - 'python3'
+      - '_DOCKER_TAG=3.8'
+      - '_LINT_OMIT_FILES=tests/*'
+    env:
+      - 'TF_ACTION=$_TF_ACTION'
+
+  - id: 'tf plan/apply'
+    name: 'gcr.io/cloud-builder/terraform'
+    dir: '${_TF_DIR}'
+    args:
+      - '${_TF_ACTION}'
+    env:
+      - 'PULL_REQUEST_ID=$_PR_NUMBER'
+      - 'BRANCH=$BRANCH_NAME'
+      - 'EXECUTOR=terraform'
+      - 'BACKEND_PREFIX=task-cf'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# options:
+#   substitution_option: 'ALLOW_LOOSE'
+# tags: ['service-${_APP}-${_TF_ACTION}']
