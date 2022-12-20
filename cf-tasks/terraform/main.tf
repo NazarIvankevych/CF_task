@@ -64,7 +64,7 @@ resource "google_pubsub_subscription" "cf_subtask_ps_subscription" {
 }
 
 resource "google_cloudfunctions_function" "task-cf-function" {
-  name = "task-cf-function"
+  name = "cf-function"
   runtime             = "python38"
 
   source_archive_bucket = google_storage_bucket.task-cf-bucket.name
