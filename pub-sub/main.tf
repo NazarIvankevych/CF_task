@@ -40,3 +40,18 @@ resource "google_pubsub_subscription" "cf_subtask_ps_subscription" {
   #   }
   # }
 }
+
+# resource "google_cloudbuild_trigger" "github-trigger" {
+#   # location = var.region
+
+#   project  = var.project_id
+#   name     = "github-updates-trigger"
+#   filename = "cloudbuild.yaml"
+#   github {
+#     owner = " NazarIvankevych"
+#     name  = "CF_task"
+#     push {
+#       branch = "^master$"
+#     }
+#   }
+# }
