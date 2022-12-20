@@ -13,7 +13,6 @@ class PubSubPublisher:
 
     def publish(self, data: bytes) -> bool:
         try:
-
             future = self._publisher.publish(self._topic_path,
                                              data)
             try:
@@ -25,7 +24,6 @@ class PubSubPublisher:
                               "publishing the message",
                               str(err))
                 return False
-
         except Exception as err:  # pylint: disable=broad-except
             logging.error(f"Unexpected error: {str(err)}")  # pylint: disable=E1205
             return False

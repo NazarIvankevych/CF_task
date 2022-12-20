@@ -15,3 +15,18 @@ variable "zone" {
     type        = string
     description = "Zone"
 }
+
+variable "bucket_id" {
+    type = string
+    default = "task-cf-370710-bucket"
+}
+
+variable "topic_id" {
+    type = string
+    default = "cf-pub_sub-topic"
+}
+
+variable "subscription_id" {
+    type = string
+    default = "cf-pub_sub-subscription"
+}

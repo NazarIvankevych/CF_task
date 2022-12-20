@@ -5,3 +5,5 @@ terraform/.terraform/
 
 # files
 gcp_creds.txt
+.~lock.*.docx
+*.docx
