@@ -48,9 +48,9 @@ steps:
       - '-c'
       - 'terraform apply'
 
-options:
-  logging: CLOUD_LOGGING_ONLY
-
 # options:
-#   substitution_option: 'ALLOW_LOOSE'
-# tags: ['service-${_APP}-${_TF_ACTION}']
+#   logging: CLOUD_LOGGING_ONLY
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+tags: ['service-${_APP}-${_TF_ACTION}']
