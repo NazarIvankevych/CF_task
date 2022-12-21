@@ -39,14 +39,14 @@ steps:
     entrypoint: sh
     args:
       - '-c'
-      - 'terraform plan'
+      - 'terraform plan -lock=false -out=plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
     args:
       - '-c'
-      - 'terraform apply'
+      - 'terraform apply -lock=false plan.out'
 
 # options:
 #   logging: CLOUD_LOGGING_ONLY
