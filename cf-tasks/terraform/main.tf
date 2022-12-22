@@ -76,6 +76,13 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   available_memory_mb = 128
   timeout = 60
 
+  # environment_variables = {
+  #   FUNCTION_REGION = var.region
+  #   GCP_PROJECT = var.project_id
+  #   DATASET_ID = var.dataset_id
+  #   OUTPUT_TABLE = google_bigquery_table.task-cf-table.table_id
+  # }
+
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
     google_pubsub_topic.cf_subtask_ps_topic,
@@ -91,4 +98,17 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
+}
+
+resource "google_cloudbuild_trigger" "github-trigger" {
+  project = var.project_id
+  name = "github-updates-trigger"
+  filename = "../cloudbuild.yaml"
+  github {
+    owner = "NazarIvankevych"
+    name = "cf-tasks"
+    push {
+      branch = "^master"
+    }
+  }
 }
