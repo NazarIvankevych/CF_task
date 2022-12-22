@@ -14,6 +14,11 @@ steps:
     name: 'ubuntu'
     args:
       - 'pwd'
+  
+  - id: "Move into another directory"
+    name: 'cd'
+    args:
+      - 'cd cf-tasks/terraform'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
