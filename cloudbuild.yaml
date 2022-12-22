@@ -1,8 +1,8 @@
 # substitutions:
 #   _APP: 'cf-tasks/terraform'
 #   _PY_DIR: 'cf-tasks/function'
-  # _TF_DIR: 'cf-tasks/terraform'
-  # _TF_ACTION: 'apply'
+#   _TF_DIR: 'cf-tasks/terraform'
+#   _TF_ACTION: 'apply'
 
 steps:
   - id: "ls"
@@ -14,15 +14,11 @@ steps:
     name: 'ubuntu'
     args:
       - 'pwd'
-  
-  - id: "Move into another directory"
-    name: 'cd'
-    args:
-      - 'cd cf-tasks/terraform'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
+    dir: 'cf-tasks/terraform'
     args:
       - '-c'
       - 'terraform init'
@@ -30,6 +26,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
+    dir: 'cf-tasks/terraform'
     args:
       - '-c'
       - 'terraform plan'
@@ -37,6 +34,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
+    dir: 'cf-tasks/terraform'
     args:
       - '-c'
       - 'terraform apply'
