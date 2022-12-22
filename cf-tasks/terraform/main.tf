@@ -14,11 +14,11 @@ provider "google" {
   zone = var.zone
 }
 
-data "google_client_openid_userinfo" "me" {}
+# data "google_client_openid_userinfo" "me" {}
 
-output "my-email" {
-  value = data.google_client_openid_userinfo.me.email
-}
+# output "my-email" {
+#   value = data.google_client_openid_userinfo.me.email
+# }
 
 resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
@@ -60,13 +60,28 @@ resource "google_bigquery_table" "task-cf-table" {
   ]
 }
 
-resource "google_pubsub_topic" "cf_subtask_ps_topic" {
+resource "google_pubsub_topic" "cf-subtask-ps-topic" {
+  project = var.project_id
   name = var.topic_id
 }
 
-resource "google_pubsub_subscription" "cf_subtask_ps_subscription" {
+resource "google_pubsub_topic_iam_member" "member" {
+  project = google_pubsub_topic.cf-subtask-ps-topic.project
+  topic = google_pubsub_topic.cf-subtask-ps-topic.name
+  role = "roles/owner"
+  member = "allUsers"
+}
+
+resource "google_pubsub_subscription" "cf-subtask-ps-subscription" {
+  project = var.project_id
   name                             = var.subscription_id
-  topic                            = google_pubsub_topic.cf_subtask_ps_topic.name
+  topic                            = google_pubsub_topic.cf-subtask-ps-topic.name
+}
+
+resource "google_pubsub_subscription_iam_member" "sub-owner" {
+  subscription = google_pubsub_subscription.cf-subtask-ps-subscription.name
+  role = "roles/owner"
+  member = "allUsers"
 }
 
 resource "google_cloudfunctions_function" "task-cf-function" {
@@ -91,7 +106,7 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
-    google_pubsub_topic.cf_subtask_ps_topic,
+    google_pubsub_topic.cf-subtask-ps-topic,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.zip
   ]
