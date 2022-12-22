@@ -103,10 +103,11 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 resource "google_cloudbuild_trigger" "github-trigger" {
   project = var.project_id
   name = "github-updates-trigger"
-  filename = "../cloudbuild.yaml"
+  filename = "cloudbuild.yaml"
+  location = "us-central1"
   github {
     owner = "NazarIvankevych"
-    name = "cf-tasks"
+    name = "CF_task"
     push {
       branch = "^master"
     }
