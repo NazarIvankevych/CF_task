@@ -5,6 +5,16 @@
   # _TF_ACTION: 'apply'
 
 steps:
+  - id: "ls"
+    name: 'ubuntu'
+    args:
+      - 'ls'
+  
+  - id: "pwd"
+    name: 'ubuntu'
+    args:
+      - 'pwd'
+
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
