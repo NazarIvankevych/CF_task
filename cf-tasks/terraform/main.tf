@@ -106,8 +106,8 @@ resource "google_cloudbuild_trigger" "github-trigger" {
   filename = "cloudbuild.yaml"
   location = "us-central1"
   github {
-    owner = "NazarIvankevych"
-    name = "CF_task"
+    owner = "nazarivankevych"
+    name = "cf_task"
     push {
       branch = "^master"
     }
