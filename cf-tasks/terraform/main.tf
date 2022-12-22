@@ -14,6 +14,12 @@ provider "google" {
   zone = var.zone
 }
 
+data "google_client_openid_userinfo" "me" {}
+
+output "my-email" {
+  value = data.google_client_openid_userinfo.me.email
+}
+
 resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
   location = var.region
