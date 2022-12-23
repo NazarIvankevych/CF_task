@@ -20,6 +20,12 @@ provider "google" {
 #   value = data.google_client_openid_userinfo.me.email
 # }
 
+# data "google_project" "project" {}
+
+# data "google_service_account" "cloudbuild_account" {
+#   account_id = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+# }
+
 resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
   location = var.region

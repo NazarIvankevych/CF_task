@@ -8,12 +8,42 @@ from datetime import datetime, time as date_time
 import requests
 
 from google.cloud import bigquery
+from google.cloud.pubsub_v1 import PublisherClient
 
 logging.basicConfig(level=logging.INFO)
 
 FUNCTION_REGION = getenv("FUNCTION_REGION")
-PROJECT_ID = getenv("GCP_PROJECT")
+PROJECT_ID = getenv("PROJECT_ID")
+DATASET_ID = getenv("DATASET_ID")
 OUTPUT_TABLE = getenv("OUTPUT_TABLE")
+PUBSUB_TOPIC_NAME = getenv("PUBSUB_TOPIC_NAME")
+
+
+class PubSubPublisher:
+
+    def __init__(self, publisher: PublisherClient,
+                 project_id: str,
+                 topic_id: str, ):
+        self._publisher = publisher
+        self._topic_path = publisher.topic_path(project_id, topic_id)
+
+    def publish(self, data: bytes) -> bool:
+        try:
+            future = self._publisher.publish(self._topic_path,
+                                             data)
+            try:
+                future.result()
+                logging.info("Successfully published to topic")
+                return True
+            except RuntimeError as err:
+                logging.error("An error occurred during "  # pylint: disable=E1205
+                              "publishing the message",
+                              str(err))
+                return False
+
+        except Exception as err:  # pylint: disable=broad-except
+            logging.error(f"Unexpected error: {str(err)}")  # pylint: disable=E1205
+            return False
 
 
 def convert_timestamp_to_sql_date_time(value):
@@ -35,7 +65,8 @@ def store_data_into_bq(dataset, timestamp, event):
 
 def main(request):
     logging.info("Request: %s", request)
-
+    PublisherClient().publish()
+    
     if request.method == "POST":  # currently function works only with POST method
         event: str
         try:

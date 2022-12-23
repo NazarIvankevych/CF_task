@@ -5,15 +5,15 @@
 #   _TF_ACTION: 'apply'
 
 steps:
-  - id: "ls"
-    name: 'ubuntu'
-    args:
-      - 'ls'
+  # - id: "ls"
+  #   name: 'ubuntu'
+  #   args:
+  #     - 'ls'
   
-  - id: "pwd"
-    name: 'ubuntu'
-    args:
-      - 'pwd'
+  # - id: "pwd"
+  #   name: 'ubuntu'
+  #   args:
+  #     - 'pwd'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
@@ -29,7 +29,7 @@ steps:
     dir: 'cf-tasks/terraform'
     args:
       - '-c'
-      - 'terraform plan'
+      - 'terraform plan -destroy -out=cf-tasks/terraform/plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
@@ -37,7 +37,21 @@ steps:
     dir: 'cf-tasks/terraform'
     args:
       - '-c'
-      - 'terraform apply'
+      - 'terraform apply cf-tasks/terraform/plan.out'
+  
+  # - id: 'tf destroy'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args:
+  #     - '-c'
+  #     - 'terraform plan -destroy -out=plan.out'
+
+  # - id: 'tf destroy plan'
+  #   name: 'hashicorp/terraform:1.0.0'
+  #   entrypoint: sh
+  #   args:
+  #     - '-c'
+  #     - 'terraform apply plan.out'
 
 # options:
 #   logging: CLOUD_LOGGING_ONLY
