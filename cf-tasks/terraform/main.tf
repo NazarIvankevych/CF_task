@@ -14,10 +14,16 @@ provider "google" {
   zone = var.zone
 }
 
-data "google_client_openid_userinfo" "me" {}
+resource "google_project_iam_member" "my-project" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "user:nazar.ivankevych@gmail.com"
+}
 
-output "my-email" {
-  value = data.google_client_openid_userinfo.me.email
+resource "google_project_iam_member" "cloud-build-project" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_storage_bucket" "task-cf-bucket" {
