@@ -66,6 +66,26 @@ resource "google_bigquery_table" "task-cf-table" {
   ]
 }
 
+resource "google_bigquery_table" "dataflow-cf-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.table_id
+  schema     = file("../schemas/bq_table_schema/dataflow-cf-raw.json")
+
+  depends_on = [
+    google_bigquery_dataset.task-cf-dataset
+  ]
+}
+
+resource "google_bigquery_table" "dataflow-cf-error-table" {
+  dataset_id = var.dataset_id
+  table_id   = var.table_id
+  schema     = file("../schemas/bq_table_schema/dataflow-cf-error-raw.json")
+
+  depends_on = [
+    google_bigquery_dataset.task-cf-dataset
+  ]
+}
+
 resource "google_pubsub_topic" "cf-subtask-ps-topic" {
   project = var.project_id
   name = var.topic_id
@@ -137,6 +157,20 @@ resource "google_cloudbuild_trigger" "github-trigger" {
     name = "cf_task"
     push {
       branch = "^master"
+    }
+  }
+}
+
+resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
+  project = var.project_id
+  name = "github-updates-dataflow-trigger"
+  filename = "cloudbuild.yaml"
+  location = "us-central1"
+  github {
+    owner = "nazarivankevych"
+    name = "cf_task"
+    push {
+      branch = "dataflow"
     }
   }
 }
