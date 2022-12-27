@@ -1,5 +1,5 @@
 variable "project_id" {
-    default     = "cf-task-nazar"
+    default     = "task-cf-370710"
     type        = string
     description = "Project ID"
 }
@@ -30,10 +30,6 @@ variable "table_id" {
 
 variable "deletion_protection" {
     default = false
-}
-
-variable "force_destroy" {
-    default = true
 }
 
 variable "bucket_id" {

@@ -62,14 +62,28 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--input_subscription', required=True,
-        help='Input PubSub subscription of the form "/subscriptions/<PROJECT>/<SUBSCRIPTION>".')
+        help='Input PubSub subscription of the form "/subscriptions/task-cf-370710/cf-pub_sub-subscription".')
     parser.add_argument(
         '--output_table', required=True,
         help='Output BigQuery table for data')
     parser.add_argument(
         '--output_error_table', required=True,
         help='Output BigQuery table for errors')
+    print("####")
     known_args, pipeline_args = parser.parse_known_args()
     pipeline_options = PipelineOptions(pipeline_args)
     pipeline_options.view_as(SetupOptions).save_main_session = True
+    print("###", pipeline_options.__dict__)
+    pipeline_options = {
+        'project': 'task-cf-370710',
+        'runner': 'DataflowRunner',
+        'region': 'US',
+        'staging_location': 'gs://cf-task/tmp',
+        'temp_location': 'gs://cf-task/tmp',
+        'template_location': 'gs://cf-task/template/test-job',
+        'save_main_session': True,
+        'streaming': True,
+        'job_name': 'dataflow-custom-pipeline-v1',
+    }
+    pipeline_options = PipelineOptions.from_dictionary(pipeline_options)
     run(pipeline_options, known_args.input_subscription, known_args.output_table, known_args.output_error_table)

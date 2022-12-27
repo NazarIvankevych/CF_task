@@ -1,16 +1,9 @@
-# terraform {
-#   required_providers {
-#     google = {
-#       source = "hashicorp/google"
-#       version = "4.44.1"
-#     }
-#   }
-# }
-
 terraform {
-  backend "gcs" {
-    bucket  = var.bucket_id
-    prefix = "cf/task-cf"
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "4.44.1"
+    }
   }
 }
 
@@ -49,7 +42,7 @@ resource "google_bigquery_table" "dataflow-cf-table" {
   ]
 }
 
-resource "google_bigquery_table" "dataflow-cf-table" {
+resource "google_bigquery_table" "dataflow-cf-error-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
   schema     = file("../schemas/dataflow-cf-error-raw.json")
@@ -81,7 +74,6 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
-    google_pubsub_topic.cf-subtask-ps-topic,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.zip
   ]
@@ -96,16 +88,16 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   member = "allUsers"
 }
 
-resource "google_cloudbuild_trigger" "github-trigger" {
+resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
   project = var.project_id
   name = "github-updates-trigger"
   filename = "cloudbuild.yaml"
   location = "us-central1"
   github {
     owner = "nazarivankevych"
-    name = "cf_task"
+    name = "cf_task/dataflow"
     push {
-      branch = "^master"
+      branch = "dataflow"
     }
   }
 }
