@@ -7,5 +7,5 @@ cf-tasks/terraform/terraform.tfstate
 cf-tasks/terraform/terraform.tfstate.backup
 
 # files
-gcp_creds.txt
+gcp_creds.json
 # проста зміна

@@ -23,9 +23,9 @@ variable "dataset_id" {
 }
 
 variable "table_id" {
-    default     = "task_cf_table"
+    default     = "cf-tasks-table"
     type        = string
-    description = "Table task ID"
+    description = "Table dataflow task ID"
 }
 
 variable "deletion_protection" {
@@ -38,7 +38,7 @@ variable "force_destroy" {
 
 variable "bucket_id" {
     type = string
-    default = "task-cf-370710-bucket"
+    default = "cf-task-nazar"
 }
 
 variable "topic_id" {

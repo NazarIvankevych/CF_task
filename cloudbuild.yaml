@@ -1,19 +1,19 @@
-# substitutions:
-#   _APP: 'cf-tasks/terraform'
-#   _PY_DIR: 'cf-tasks/function'
-#   _TF_DIR: 'cf-tasks/terraform'
-#   _TF_ACTION: 'apply'
+substitutions:
+  _APP: 'cf-task'
+  _PY_DIR: 'cf-tasks/function'
+  _TF_DIR: 'cf-tasks/terrafowm'
+  _TF_ACTION: 'apply'
 
 steps:
-  # - id: "ls"
-  #   name: 'ubuntu'
-  #   args:
-  #     - 'ls'
+  - id: "ls"
+    name: 'ubuntu'
+    args:
+      - 'ls'
   
-  # - id: "pwd"
-  #   name: 'ubuntu'
-  #   args:
-  #     - 'pwd'
+  - id: "pwd"
+    name: 'ubuntu'
+    args:
+      - 'pwd'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
@@ -53,9 +53,26 @@ steps:
   #     - '-c'
   #     - 'terraform apply plan.out'
 
-# options:
-#   logging: CLOUD_LOGGING_ONLY
+  # - id: "Activate virtual environment venv"
+  #   name: 'gcr.io/task-cf-370710/dataflow-python38'
+  #   entrypoint: '/bin/bash'
+  #   args: [ '-c', 'source /venv/bin/activate' ]
+  #   waitFor: ['-']
 
-# options:
-#   substitution_option: 'ALLOW_LOOSE'
-# tags: ['service-${_APP}-${_TF_ACTION}']
+  # - id: "Create dataflow template"
+  #   name: 'gcr.io/task-cf-370710/dataflow-python38'
+  #   entrypoint: 'python'
+  #   args: [ '-m', 'main',
+  #     "--job_name=your_job_name",
+  #     "--project=task-cf-370710",
+  #     "--region=us-central1",
+  #     "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
+  #     "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
+  #     "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
+  #     "--runner=DataflowRunner",
+  #     "--setup_file='./function/setup.py'",
+  #     "--autoscaling_algorithm=NONE"
+  #   ]
+  #   waitFor: [
+  #     'Activate virtual environment venv'
+  #     ]

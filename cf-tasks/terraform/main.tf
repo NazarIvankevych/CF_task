@@ -14,17 +14,11 @@ provider "google" {
   zone = var.zone
 }
 
-# data "google_client_openid_userinfo" "me" {}
+data "google_client_openid_userinfo" "me" {}
 
-# output "my-email" {
-#   value = data.google_client_openid_userinfo.me.email
-# }
-
-# data "google_project" "project" {}
-
-# data "google_service_account" "cloudbuild_account" {
-#   account_id = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
-# }
+output "my-email" {
+  value = data.google_client_openid_userinfo.me.email
+}
 
 resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
@@ -91,7 +85,7 @@ resource "google_pubsub_subscription_iam_member" "sub-owner" {
 }
 
 resource "google_cloudfunctions_function" "task-cf-function" {
-  name = "task-cf-function"
+  name = "cf-tasks-function"
   runtime             = "python38"
 
   source_archive_bucket = google_storage_bucket.task-cf-bucket.name
@@ -103,12 +97,12 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   available_memory_mb = 128
   timeout = 60
 
-  # environment_variables = {
-  #   FUNCTION_REGION = var.region
-  #   GCP_PROJECT = var.project_id
-  #   DATASET_ID = var.dataset_id
-  #   OUTPUT_TABLE = google_bigquery_table.task-cf-table.table_id
-  # }
+  environment_variables = {
+    FUNCTION_REGION = var.region
+    GCP_PROJECT = var.project_id
+    DATASET_ID = var.dataset_id
+    OUTPUT_TABLE = google_bigquery_table.task-cf-table.table_id
+  }
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
