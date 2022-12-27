@@ -70,7 +70,7 @@ steps:
       "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
       "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
       "--runner=DataflowRunner",
-      "--setup_file='./function/setup.py'",
+      "--setup_file='/cf-tasks/function/dataflow-functions/setup.py'",
       "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
