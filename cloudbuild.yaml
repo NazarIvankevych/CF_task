@@ -38,6 +38,7 @@ steps:
     args:
       - '-c'
       - 'terraform apply'
+      - 'yes'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
