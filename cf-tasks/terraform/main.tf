@@ -30,23 +30,32 @@ resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
   location = var.region
   force_destroy = true
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
-data "archive_file" "source" {
-  type        = "zip"
-  source_dir = "../function"
-  output_path = "/tmp/function.zip"
-}
-
-resource "google_storage_bucket_object" "zip" {
-  source = data.archive_file.source.output_path
+resource "google_storage_bucket_object" "cf-tasks" {
+  source = data.archive_file.cf-task.output_path
   content_type = "application/zip"
-  name = "src-${data.archive_file.source.output_md5}.zip"
+  name = "src-${data.archive_file.cf-task.output_md5}.cf-tasks"
   bucket = google_storage_bucket.task-cf-bucket.name
 
   depends_on = [
     google_storage_bucket.task-cf-bucket,
-    data.archive_file.source
+    data.archive_file.cf-task
+  ]
+}
+
+resource "google_storage_bucket_object" "dataflow" {
+  source = data.archive_file.dataflow.output_path
+  content_type = "application/zip"
+  name = "src-${data.archive_file.dataflow.output_md5}.dataflow"
+  bucket = google_storage_bucket.task-cf-bucket.name
+
+  depends_on = [
+    google_storage_bucket.task-cf-bucket,
+    data.archive_file.dataflow
   ]
 }
 
@@ -60,6 +69,7 @@ resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
   schema     = file("../schemas/bq_table_schema/task-cf-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset
@@ -68,8 +78,9 @@ resource "google_bigquery_table" "task-cf-table" {
 
 resource "google_bigquery_table" "dataflow-cf-table" {
   dataset_id = var.dataset_id
-  table_id   = var.table_id
+  table_id   = var.dataflow_id
   schema     = file("../schemas/bq_table_schema/dataflow-cf-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset
@@ -78,8 +89,9 @@ resource "google_bigquery_table" "dataflow-cf-table" {
 
 resource "google_bigquery_table" "dataflow-cf-error-table" {
   dataset_id = var.dataset_id
-  table_id   = var.table_id
+  table_id   = var.dataflow-error_id
   schema     = file("../schemas/bq_table_schema/dataflow-cf-error-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset
@@ -115,7 +127,8 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   runtime             = "python38"
 
   source_archive_bucket = google_storage_bucket.task-cf-bucket.name
-  source_archive_object = google_storage_bucket_object.zip.name
+  source_archive_object = google_storage_bucket_object.cf-tasks.name
+  # source_archive_object = google_storage_bucket_object.dataflow.name
   
   entry_point         = "main"
   trigger_http = true
@@ -134,7 +147,8 @@ resource "google_cloudfunctions_function" "task-cf-function" {
     google_bigquery_dataset.task-cf-dataset,
     google_pubsub_topic.cf-subtask-ps-topic,
     google_storage_bucket.task-cf-bucket,
-    google_storage_bucket_object.zip
+    google_storage_bucket_object.cf-tasks,
+    google_storage_bucket_object.dataflow
   ]
 }
 

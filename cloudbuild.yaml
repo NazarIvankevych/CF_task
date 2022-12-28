@@ -1,7 +1,7 @@
 substitutions:
   _APP: 'cf-task'
   _PY_DIR: 'cf-tasks/function'
-  _TF_DIR: 'cf-tasks/terrafowm'
+  _TF_DIR: 'cf-tasks/terraform'
   _TF_ACTION: 'apply'
 
 steps:

@@ -25,7 +25,19 @@ variable "dataset_id" {
 variable "table_id" {
     default     = "cf-tasks-table"
     type        = string
+    description = "Table cf-task task ID"
+}
+
+variable "dataflow_id" {
+    default     = "cf-tasks-table-dataflow"
+    type        = string
     description = "Table dataflow task ID"
+}
+
+variable "dataflow-error_id" {
+    default     = "cf-tasks-table-dataflow-error"
+    type        = string
+    description = "Table dataflow-error task ID"
 }
 
 variable "deletion_protection" {
