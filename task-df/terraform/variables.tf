@@ -17,28 +17,22 @@ variable "zone" {
 }
 
 variable "dataset_id" {
-    default     = "task_cf_dataset"
+    default     = "task_df_dataset"
     type        = string
     description = "Dataset ID"
 }
 
 variable "table_id" {
-    default     = "cf-tasks-table"
+    default     = "table-df-table-dataflow"
     type        = string
-    description = "Table cf-task task ID"
+    description = "Table dataflow task ID"
 }
 
-# variable "dataflow_id" {
-#     default     = "cf-tasks-table-dataflow"
-#     type        = string
-#     description = "Table dataflow task ID"
-# }
-
-# variable "dataflow-error_id" {
-#     default     = "cf-tasks-table-dataflow-error"
-#     type        = string
-#     description = "Table dataflow-error task ID"
-# }
+variable "table-error_id" {
+    default     = "table-df-table-dataflow-error"
+    type        = string
+    description = "Table dataflow-error task ID"
+}
 
 variable "deletion_protection" {
     default = false
@@ -51,4 +45,14 @@ variable "force_destroy" {
 variable "bucket_id" {
     type = string
     default = "cf-task-nazar"
+}
+
+variable "topic_id" {
+    type = string
+    default = "cf-pub_sub-topic"
+}
+
+variable "subscription_id" {
+    type = string
+    default = "cf-pub_sub-subscription"
 }

@@ -1,3 +1,6 @@
+import datetime
+import json
+
 import apache_beam as beam
 import argparse
 from apache_beam.options.pipeline_options import PipelineOptions
@@ -25,11 +28,15 @@ class Parser(beam.DoFn):
 
     def process(self, line):
         try:
-            data_row = # parse json message according to table schema
-            yield data_row
+            line = json.loads(line.decode("utf-8"))
+            if not all(field in line for field in ["name", "age"]):
+                raise
+            line["timestamp"] = datetime.datetime.utcnow()
+
+            yield line
         except Exception as error:
-            error_row = # parse json message according to ERRORS table schema
-            yield beam.pvalue.TaggedOutput(self.ERROR_TAG, error_row)
+            err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
+            yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
 
 
 def run(options, input_subscription, output_table, output_error_table):
@@ -78,9 +85,9 @@ if __name__ == '__main__':
         'project': 'task-cf-370710',
         'runner': 'DataflowRunner',
         'region': 'US',
-        'staging_location': 'gs://cf-task/tmp',
-        'temp_location': 'gs://cf-task/tmp',
-        'template_location': 'gs://cf-task/template/test-job',
+        'staging_location': 'gs://task-cf-370710-dataflow-templates/my-template/staging/',
+        'temp_location': 'gs://task-cf-370710-dataflow-templates/my-template/temp/',
+        'template_location': 'gs://task-cf-370710-dataflow-templates/my-template/templates/template_test',
         'save_main_session': True,
         'streaming': True,
         'job_name': 'dataflow-custom-pipeline-v1',

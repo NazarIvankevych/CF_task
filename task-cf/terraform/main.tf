@@ -47,18 +47,6 @@ resource "google_storage_bucket_object" "cf-tasks" {
   ]
 }
 
-# resource "google_storage_bucket_object" "dataflow" {
-#   source = data.archive_file.dataflow.output_path
-#   content_type = "application/zip"
-#   name = "src-${data.archive_file.dataflow.output_md5}.dataflow"
-#   bucket = google_storage_bucket.task-cf-bucket.name
-
-#   depends_on = [
-#     google_storage_bucket.task-cf-bucket,
-#     data.archive_file.dataflow
-#   ]
-# }
-
 resource "google_bigquery_dataset" "task-cf-dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is public"

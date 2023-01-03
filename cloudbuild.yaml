@@ -5,39 +5,39 @@ substitutions:
   _TF_ACTION: 'apply'
 
 steps:
-  # - id: "ls"
-  #   name: 'ubuntu'
-  #   args:
-  #     - 'ls'
+  - id: "ls"
+    name: 'ubuntu'
+    args:
+      - 'ls'
   
-  # - id: "pwd"
-  #   name: 'ubuntu'
-  #   args:
-  #     - 'pwd'
+  - id: "pwd"
+    name: 'ubuntu'
+    args:
+      - 'pwd'
 
-  # - id: 'tf init'
-  #   name: 'hashicorp/terraform:1.0.0'
-  #   entrypoint: sh
-  #   dir: 'task-cf/terraform'
-  #   args:
-  #     - '-c'
-  #     - 'terraform init'
+  - id: 'tf init'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    dir: 'task-cf/terraform'
+    args:
+      - '-c'
+      - 'terraform init'
 
-  # - id: 'tf plan'
-  #   name: 'hashicorp/terraform:1.0.0'
-  #   entrypoint: sh
-  #   dir: 'task-cf/terraform'
-  #   args:
-  #     - '-c'
-  #     - 'terraform plan'
+  - id: 'tf plan'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    dir: 'task-cf/terraform'
+    args:
+      - '-c'
+      - 'terraform plan'
 
-  # - id: 'tf apply'
-  #   name: 'hashicorp/terraform:1.0.0'
-  #   entrypoint: sh
-  #   dir: 'task-cf/terraform'
-  #   args:
-  #     - '-c'
-  #     - 'terraform apply -auto-approve'
+  - id: 'tf apply'
+    name: 'hashicorp/terraform:1.0.0'
+    entrypoint: sh
+    dir: 'task-cf/terraform'
+    args:
+      - '-c'
+      - 'terraform apply -auto-approve'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
@@ -63,14 +63,14 @@ steps:
     name: 'gcr.io/task-cf-370710/dataflow-python38'
     entrypoint: 'python'
     args: [ '-m', 'main',
-      "--job_name=your_job_name",
+      "--job_name=dataflow_job",
       "--project=task-cf-370710",
       "--region=us-central1",
       "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
       "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
       "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
       "--runner=DataflowRunner",
-      "--setup_file='/cf-tasks/function/dataflow-functions/setup.py'",
+      "--setup_file='/task-df/function/setup.py'",
       "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
