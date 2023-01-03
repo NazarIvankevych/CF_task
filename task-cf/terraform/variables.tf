@@ -28,17 +28,17 @@ variable "table_id" {
     description = "Table cf-task task ID"
 }
 
-variable "dataflow_id" {
-    default     = "cf-tasks-table-dataflow"
-    type        = string
-    description = "Table dataflow task ID"
-}
+# variable "dataflow_id" {
+#     default     = "cf-tasks-table-dataflow"
+#     type        = string
+#     description = "Table dataflow task ID"
+# }
 
-variable "dataflow-error_id" {
-    default     = "cf-tasks-table-dataflow-error"
-    type        = string
-    description = "Table dataflow-error task ID"
-}
+# variable "dataflow-error_id" {
+#     default     = "cf-tasks-table-dataflow-error"
+#     type        = string
+#     description = "Table dataflow-error task ID"
+# }
 
 variable "deletion_protection" {
     default = false

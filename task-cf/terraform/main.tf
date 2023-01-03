@@ -98,29 +98,29 @@ resource "google_bigquery_table" "task-cf-table" {
 #   ]
 # }
 # TODO: pub/sub configurations
-# resource "google_pubsub_topic" "cf-subtask-ps-topic" {
-#   project = var.project_id
-#   name = var.topic_id
-# }
+resource "google_pubsub_topic" "cf-subtask-ps-topic" {
+  project = var.project_id
+  name = var.topic_id
+}
 
-# resource "google_pubsub_subscription" "cf-subtask-ps-subscription" {
-#   project = var.project_id
-#   name                             = var.subscription_id
-#   topic                            = google_pubsub_topic.cf-subtask-ps-topic.name
-# }
+resource "google_pubsub_subscription" "cf-subtask-ps-subscription" {
+  project = var.project_id
+  name                             = var.subscription_id
+  topic                            = google_pubsub_topic.cf-subtask-ps-topic.name
+}
 
-# resource "google_pubsub_topic_iam_member" "member" {
-#   project = google_pubsub_topic.cf-subtask-ps-topic.project
-#   topic = google_pubsub_topic.cf-subtask-ps-topic.name
-#   role = "roles/owner"
-#   member = "allUsers"
-# }
+resource "google_pubsub_topic_iam_member" "member" {
+  project = google_pubsub_topic.cf-subtask-ps-topic.project
+  topic = google_pubsub_topic.cf-subtask-ps-topic.name
+  role = "roles/owner"
+  member = "allUsers"
+}
 
-# resource "google_pubsub_subscription_iam_member" "sub-owner" {
-#   subscription = google_pubsub_subscription.cf-subtask-ps-subscription.name
-#   role = "roles/owner"
-#   member = "allUsers"
-# }
+resource "google_pubsub_subscription_iam_member" "sub-owner" {
+  subscription = google_pubsub_subscription.cf-subtask-ps-subscription.name
+  role = "roles/owner"
+  member = "allUsers"
+}
 
 resource "google_cloudfunctions_function" "task-cf-function" {
   name = "task-cf-function"
@@ -144,10 +144,10 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
-    # google_pubsub_topic.cf-subtask-ps-topic,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.cf-tasks,
-    # google_storage_bucket_object.dataflow
+    google_pubsub_topic.cf-subtask-ps-topic,
+    google_pubsub_subscription.cf-subtask-ps-subscription
   ]
 }
 
