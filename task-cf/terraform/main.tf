@@ -128,7 +128,6 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   source_archive_bucket = google_storage_bucket.task-cf-bucket.name
   source_archive_object = google_storage_bucket_object.cf-tasks.name
-  # source_archive_object = google_storage_bucket_object.dataflow.name
   
   entry_point         = "main"
   trigger_http = true

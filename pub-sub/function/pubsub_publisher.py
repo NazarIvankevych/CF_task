@@ -28,5 +28,6 @@ class PubSubPublisher:
             logging.error(f"Unexpected error: {str(err)}")  # pylint: disable=E1205
             return False
 
+
 def main():
     PubSubPublisher().publish()
