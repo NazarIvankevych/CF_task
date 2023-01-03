@@ -14,11 +14,6 @@ steps:
     name: 'ubuntu'
     args:
       - 'pwd'
-  
-  - id: "mkdir"
-    name: 'ubuntu'
-    args:
-      - 'mkdir task-cf/plan'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
@@ -34,7 +29,7 @@ steps:
     dir: 'cf-tasks/terraform'
     args:
       - '-c'
-      - 'terraform plan -out task-cf/plan/plan.out'
+      - 'terraform plan -out task-cf/plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
@@ -42,7 +37,7 @@ steps:
     dir: 'cf-tasks/terraform'
     args:
       - '-c'
-      - 'terraform apply -auto-approve task-cf/plan/plan.out'
+      - 'terraform apply -auto-approve task-cf/plan.out'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
