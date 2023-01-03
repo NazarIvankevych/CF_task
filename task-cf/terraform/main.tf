@@ -36,28 +36,28 @@ resource "google_storage_bucket" "task-cf-bucket" {
 }
 
 resource "google_storage_bucket_object" "cf-tasks" {
-  source = data.archive_file.cf-task.output_path
+  source = data.archive_file.task-cf.output_path
   content_type = "application/zip"
-  name = "src-${data.archive_file.cf-task.output_md5}.cf-tasks"
+  name = "src-${data.archive_file.task-cf.output_md5}.cf-tasks"
   bucket = google_storage_bucket.task-cf-bucket.name
 
   depends_on = [
     google_storage_bucket.task-cf-bucket,
-    data.archive_file.cf-task
+    data.archive_file.task-cf
   ]
 }
 
-resource "google_storage_bucket_object" "dataflow" {
-  source = data.archive_file.dataflow.output_path
-  content_type = "application/zip"
-  name = "src-${data.archive_file.dataflow.output_md5}.dataflow"
-  bucket = google_storage_bucket.task-cf-bucket.name
+# resource "google_storage_bucket_object" "dataflow" {
+#   source = data.archive_file.dataflow.output_path
+#   content_type = "application/zip"
+#   name = "src-${data.archive_file.dataflow.output_md5}.dataflow"
+#   bucket = google_storage_bucket.task-cf-bucket.name
 
-  depends_on = [
-    google_storage_bucket.task-cf-bucket,
-    data.archive_file.dataflow
-  ]
-}
+#   depends_on = [
+#     google_storage_bucket.task-cf-bucket,
+#     data.archive_file.dataflow
+#   ]
+# }
 
 resource "google_bigquery_dataset" "task-cf-dataset" {
   dataset_id  = var.dataset_id
@@ -75,55 +75,55 @@ resource "google_bigquery_table" "task-cf-table" {
     google_bigquery_dataset.task-cf-dataset
   ]
 }
+# TODO: add dataflow
+# resource "google_bigquery_table" "dataflow-cf-table" {
+#   dataset_id = var.dataset_id
+#   table_id   = var.dataflow_id
+#   schema     = file("../schemas/bq_table_schema/dataflow-cf-raw.json")
+#   deletion_protection = false
 
-resource "google_bigquery_table" "dataflow-cf-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.dataflow_id
-  schema     = file("../schemas/bq_table_schema/dataflow-cf-raw.json")
-  deletion_protection = false
+#   depends_on = [
+#     google_bigquery_dataset.task-cf-dataset
+#   ]
+# }
 
-  depends_on = [
-    google_bigquery_dataset.task-cf-dataset
-  ]
-}
+# resource "google_bigquery_table" "dataflow-cf-error-table" {
+#   dataset_id = var.dataset_id
+#   table_id   = var.dataflow-error_id
+#   schema     = file("../schemas/bq_table_schema/dataflow-cf-error-raw.json")
+#   deletion_protection = false
 
-resource "google_bigquery_table" "dataflow-cf-error-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.dataflow-error_id
-  schema     = file("../schemas/bq_table_schema/dataflow-cf-error-raw.json")
-  deletion_protection = false
+#   depends_on = [
+#     google_bigquery_dataset.task-cf-dataset
+#   ]
+# }
+# TODO: pub/sub configurations
+# resource "google_pubsub_topic" "cf-subtask-ps-topic" {
+#   project = var.project_id
+#   name = var.topic_id
+# }
 
-  depends_on = [
-    google_bigquery_dataset.task-cf-dataset
-  ]
-}
+# resource "google_pubsub_subscription" "cf-subtask-ps-subscription" {
+#   project = var.project_id
+#   name                             = var.subscription_id
+#   topic                            = google_pubsub_topic.cf-subtask-ps-topic.name
+# }
 
-resource "google_pubsub_topic" "cf-subtask-ps-topic" {
-  project = var.project_id
-  name = var.topic_id
-}
+# resource "google_pubsub_topic_iam_member" "member" {
+#   project = google_pubsub_topic.cf-subtask-ps-topic.project
+#   topic = google_pubsub_topic.cf-subtask-ps-topic.name
+#   role = "roles/owner"
+#   member = "allUsers"
+# }
 
-resource "google_pubsub_topic_iam_member" "member" {
-  project = google_pubsub_topic.cf-subtask-ps-topic.project
-  topic = google_pubsub_topic.cf-subtask-ps-topic.name
-  role = "roles/owner"
-  member = "allUsers"
-}
-
-resource "google_pubsub_subscription" "cf-subtask-ps-subscription" {
-  project = var.project_id
-  name                             = var.subscription_id
-  topic                            = google_pubsub_topic.cf-subtask-ps-topic.name
-}
-
-resource "google_pubsub_subscription_iam_member" "sub-owner" {
-  subscription = google_pubsub_subscription.cf-subtask-ps-subscription.name
-  role = "roles/owner"
-  member = "allUsers"
-}
+# resource "google_pubsub_subscription_iam_member" "sub-owner" {
+#   subscription = google_pubsub_subscription.cf-subtask-ps-subscription.name
+#   role = "roles/owner"
+#   member = "allUsers"
+# }
 
 resource "google_cloudfunctions_function" "task-cf-function" {
-  name = "cf-tasks-function"
+  name = "task-cf-function"
   runtime             = "python38"
 
   source_archive_bucket = google_storage_bucket.task-cf-bucket.name
@@ -144,10 +144,10 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset,
-    google_pubsub_topic.cf-subtask-ps-topic,
+    # google_pubsub_topic.cf-subtask-ps-topic,
     google_storage_bucket.task-cf-bucket,
     google_storage_bucket_object.cf-tasks,
-    google_storage_bucket_object.dataflow
+    # google_storage_bucket_object.dataflow
   ]
 }
 
@@ -160,23 +160,9 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   member = "allUsers"
 }
 
-resource "google_cloudbuild_trigger" "github-trigger" {
+resource "google_cloudbuild_trigger" "github-cloud-trigger" {
   project = var.project_id
-  name = "github-updates-trigger"
-  filename = "cloudbuild.yaml"
-  location = "us-central1"
-  github {
-    owner = "nazarivankevych"
-    name = "cf_task"
-    push {
-      branch = "^master"
-    }
-  }
-}
-
-resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
-  project = var.project_id
-  name = "github-updates-dataflow-trigger"
+  name = "github-cloud-trigger-trigger"
   filename = "cloudbuild.yaml"
   location = "us-central1"
   github {
