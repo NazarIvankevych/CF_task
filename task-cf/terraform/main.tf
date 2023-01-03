@@ -68,36 +68,14 @@ resource "google_bigquery_dataset" "task-cf-dataset" {
 resource "google_bigquery_table" "task-cf-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
-  schema     = file("../schemas/bq_table_schema/task-cf-raw.json")
+  schema     = file("../schemas/task-cf-raw.json")
   deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-cf-dataset
   ]
 }
-# TODO: add dataflow
-# resource "google_bigquery_table" "dataflow-cf-table" {
-#   dataset_id = var.dataset_id
-#   table_id   = var.dataflow_id
-#   schema     = file("../schemas/bq_table_schema/dataflow-cf-raw.json")
-#   deletion_protection = false
 
-#   depends_on = [
-#     google_bigquery_dataset.task-cf-dataset
-#   ]
-# }
-
-# resource "google_bigquery_table" "dataflow-cf-error-table" {
-#   dataset_id = var.dataset_id
-#   table_id   = var.dataflow-error_id
-#   schema     = file("../schemas/bq_table_schema/dataflow-cf-error-raw.json")
-#   deletion_protection = false
-
-#   depends_on = [
-#     google_bigquery_dataset.task-cf-dataset
-#   ]
-# }
-# TODO: pub/sub configurations
 resource "google_pubsub_topic" "cf-subtask-ps-topic" {
   project = var.project_id
   name = var.topic_id
