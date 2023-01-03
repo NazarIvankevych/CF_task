@@ -26,7 +26,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
-    dir: 'cf-tasks/terraform'
+    dir: 'task-cf/terraform'
     args:
       - '-c'
       - 'terraform plan'
@@ -34,7 +34,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
     entrypoint: sh
-    dir: 'cf-tasks/terraform'
+    dir: 'task-cf/terraform'
     args:
       - '-c'
       - 'terraform apply -auto-approve'
