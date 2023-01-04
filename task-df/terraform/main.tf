@@ -1,11 +1,10 @@
 terraform {
-  required_providers {
-    google = {
-      source = "hashicorp/google"
-      version = "4.44.1"
-    }
+  backend "gcs" {
+    prefix = "task-df"
+    bucket = "big-data-bucket125478"
   }
 }
+
 
 provider "google" {
   # Configuration options
@@ -27,18 +26,22 @@ resource "google_project_iam_member" "cloud-build-project" {
 }
 
 resource "google_storage_bucket" "task-df-bucket" {
-  name     = "dataflow-bucket"
+  name = "${var.project_id}-dataflow-bucket"
   location = var.region
+  force_destroy = true
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 resource "google_storage_bucket_object" "task-df-object" {
-  name   = data.archive_file.task-df.output_path
+  source   = data.archive_file.source.output_path
   content_type = "application/zip"
-  name = "src-${data.archive_file.task-df.output_md5}.cf-tasks"
+  name = "src-${data.archive_file.source.output_md5}.task-df-object"
   bucket = google_storage_bucket.task-df-bucket.name
     depends_on = [
       google_storage_bucket.task-df-bucket,
-      data.archive_file.task-df
+      data.archive_file.source
   ]
 }
 
@@ -50,7 +53,7 @@ resource "google_bigquery_dataset" "task-df-dataset" {
 
 resource "google_bigquery_table" "dataflow-df-table" {
   dataset_id = var.dataset_id
-  table_id   = var.table-dataflow_id
+  table_id   = var.table_id
   schema     = file("../schemas/dataflow-cf-raw.json")
 
   depends_on = [
@@ -60,7 +63,7 @@ resource "google_bigquery_table" "dataflow-df-table" {
 
 resource "google_bigquery_table" "dataflow-df-error-table" {
   dataset_id = var.dataset_id
-  table_id   = var.table-error-dataflow_id
+  table_id   = var.table-error_id
   schema     = file("../schemas/dataflow-cf-error-raw.json")
 
   depends_on = [
@@ -105,21 +108,21 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 
 resource "google_dataflow_job" "big_data_job" {
   name                  = "dataflow-job-task"
-  template_gcs_path     = "gs://cf-task/template/test-job"
-  temp_gcs_location     = "gs://cf-task/tmp"
-  service_account_email = "cloud-builder-account@task-cf-370710.iam.gserviceaccount.com"
+  template_gcs_path     = "gs://task-df/template/dataflow-job"
+  temp_gcs_location     = "gs://task-df/tmp"
+  service_account_email = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
 
-resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
-  project = var.project_id
-  name = "github-updates-task_df-trigger"
-  filename = "cloudbuild.yaml"
-  location = "us-central1"
-  github {
-    owner = "nazarivankevych"
-    name = "cf-task"
-    push {
-      branch = "dataflow"
-    }
-  }
-}
+# resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
+#   project = var.project_id
+#   name = "github-updates-task_df-trigger"
+#   filename = "cloudbuild.yaml"
+#   location = "us-central1"
+#   github {
+#     owner = "nazarivankevych"
+#     name = "cf-task"
+#     push {
+#       branch = "dataflow"
+#     }
+#   }
+# }

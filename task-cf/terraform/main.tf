@@ -1,9 +1,7 @@
 terraform {
-  required_providers {
-    google = {
-      source = "hashicorp/google"
-      version = "4.44.1"
-    }
+  backend "gcs" {
+    prefix = "task-cf"
+    bucket = "big-data-bucket125478"
   }
 }
 
