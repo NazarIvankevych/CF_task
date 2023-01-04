@@ -53,26 +53,26 @@ steps:
   #     - '-c'
   #     - 'terraform apply plan.out'
 
-  - id: "Activate virtual environment venv"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: '/bin/bash'
-    args: [ '-c', 'source /venv/bin/activate' ]
-    waitFor: ['-']
+  # - id: "Activate virtual environment venv"
+  #   name: 'gcr.io/task-cf-370710/dataflow-python38'
+  #   entrypoint: '/bin/bash'
+  #   args: [ '-c', 'source /venv/bin/activate' ]
+  #   waitFor: ['-']
 
-  - id: "Create dataflow template"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: 'python'
-    args: [ '-m', 'main',
-      "--job_name=dataflow_job",
-      "--project=task-cf-370710",
-      "--region=us-central1",
-      "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
-      "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
-      "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
-      "--runner=DataflowRunner",
-      "--setup_file='/task-df/function/setup.py'",
-      "--autoscaling_algorithm=NONE"
-    ]
-    waitFor: [
-      'Activate virtual environment venv'
-      ]
+  # - id: "Create dataflow template"
+  #   name: 'gcr.io/task-cf-370710/dataflow-python38'
+  #   entrypoint: 'python'
+  #   args: [ '-m', 'main',
+  #     "--job_name=dataflow_job",
+  #     "--project=task-cf-370710",
+  #     "--region=us-central1",
+  #     "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
+  #     "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
+  #     "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
+  #     "--runner=DataflowRunner",
+  #     "--setup_file='/task-df/function/setup.py'",
+  #     "--autoscaling_algorithm=NONE"
+  #   ]
+  #   waitFor: [
+  #     'Activate virtual environment venv'
+  #     ]

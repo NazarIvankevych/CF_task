@@ -128,46 +128,12 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 
 resource "google_cloudbuild_trigger" "github-cloud-trigger" {
   project = var.project_id
-  name = "github-cloud-trigger-trigger"
+  name = "github-cloud-trigger"
   filename = "cloudbuild.yaml"
   location = "us-central1"
   github {
     owner = "nazarivankevych"
     name = "cf_task"
-    push {
-      branch = "dataflow"
-    }
-  }
-}
-
-resource "google_bigquery_table" "dataflow-df-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.table_id
-  schema     = file("../schemas/dataflow-cf-raw.json")
-
-  depends_on = [
-    google_bigquery_dataset.task-cf-dataset
-  ]
-}
-
-resource "google_bigquery_table" "dataflow-df-error-table" {
-  dataset_id = var.dataset_id
-  table_id   = var.table-error_id
-  schema     = file("../schemas/dataflow-cf-error-raw.json")
-
-  depends_on = [
-    google_bigquery_dataset.task-cf-dataset
-  ]
-}
-
-resource "google_cloudbuild_trigger" "github-dataflow-trigger" {
-  project = var.project_id
-  name = "github-updates-dataflow-trigger"
-  filename = "cloudbuild.yaml"
-  location = "us-central1"
-  github {
-    owner = "nazarivankevych"
-    name = "task-df"
     push {
       branch = "dataflow"
     }
