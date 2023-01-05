@@ -107,11 +107,9 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   }
 
   depends_on = [
-    google_bigquery_dataset.task-cf-dataset,
-    google_storage_bucket.task-cf-bucket,
-    google_storage_bucket_object.cf-tasks,
-    google_pubsub_topic.cf-subtask-ps-topic,
-    google_pubsub_subscription.cf-subtask-ps-subscription
+    PROJECT_ID    = var.project_id
+    OUTPUT_TABLE  = "${google_bigquery_dataset.task-cf-dataset.dataset_id}.${google_bigquery_table.task-cf-table.table_id}"
+    TOPIC_ID      = var.topic_id
   ]
 }
 
