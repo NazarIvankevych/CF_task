@@ -48,7 +48,7 @@ resource "google_storage_bucket_object" "cf-tasks" {
 resource "google_bigquery_dataset" "task-cf-dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is public"
-  location    = "US"
+  location    = var.zone
 }
 
 resource "google_bigquery_table" "task-cf-table" {
