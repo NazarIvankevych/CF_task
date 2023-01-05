@@ -29,7 +29,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform plan'
+      - 'terraform plan -out=../plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
@@ -37,7 +37,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform apply -auto-approve'
+      - 'terraform apply -auto-approve ../plan.out'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
