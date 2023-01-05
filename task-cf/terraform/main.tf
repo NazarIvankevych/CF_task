@@ -100,17 +100,18 @@ resource "google_cloudfunctions_function" "task-cf-function" {
   timeout = 60
 
   environment_variables = {
-    FUNCTION_REGION = var.region
-    GCP_PROJECT = var.project_id
-    DATASET_ID = var.dataset_id
-    OUTPUT_TABLE = google_bigquery_table.task-cf-table.table_id
-  }
-
-  depends_on = [
     PROJECT_ID    = var.project_id
     OUTPUT_TABLE  = "${google_bigquery_dataset.task-cf-dataset.dataset_id}.${google_bigquery_table.task-cf-table.table_id}"
     TOPIC_ID      = var.topic_id
-  ]
+  }
+
+  # depends_on = [
+  #   google_bigquery_dataset.task-cf-dataset,
+  #   google_storage_bucket.task-cf-bucket,
+  #   google_storage_bucket_object.cf-tasks,
+  #   google_pubsub_topic.cf-subtask-ps-topic,
+  #   google_pubsub_subscription.cf-subtask-ps-subscription
+  # ]
 }
 
 resource "google_cloudfunctions_function_iam_member" "invoker" {
