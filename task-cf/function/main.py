@@ -12,10 +12,10 @@ from google.cloud.pubsub_v1 import PublisherClient
 
 logging.basicConfig(level=logging.INFO)
 
-PROJECT_ID = getenv("GCP_PROJECT")
-DATASET_ID = getenv("DATASET_ID")
-OUTPUT_TABLE = getenv("OUTPUT_TABLE")
-PUBSUB_TOPIC_NAME = getenv("PUBSUB_TOPIC_NAME")
+PROJECT_ID = getenv("task-cf-370710")
+DATASET_ID = getenv("task_cf_dataset")
+OUTPUT_TABLE = getenv("cf-tasks-table")
+PUBSUB_TOPIC_NAME = getenv("cf-pub_sub-topic")
 
 
 class PubSubPublisher:

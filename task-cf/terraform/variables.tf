@@ -28,18 +28,6 @@ variable "table_id" {
     description = "Table cf-task task ID"
 }
 
-variable "table-dataflow_id" {
-    default     = "table-df-table-dataflow"
-    type        = string
-    description = "Table dataflow task ID"
-}
-
-variable "table-error-dataflow_id" {
-    default     = "table-df-table-dataflow-error"
-    type        = string
-    description = "Table dataflow-error task ID"
-}
-
 variable "deletion_protection" {
     default = false
 }
