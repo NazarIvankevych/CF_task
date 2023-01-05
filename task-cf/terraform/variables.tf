@@ -10,8 +10,8 @@ variable "region" {
     description = "Region"
 }
 
-variable "zone" {
-    default     = "us-central1-c"
+variable "location" {
+    default     = "us-central1"
     type        = string
     description = "Zone"
 }

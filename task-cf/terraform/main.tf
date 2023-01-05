@@ -9,7 +9,6 @@ provider "google" {
   # Configuration options
   project = var.project_id
   region = var.region
-  zone = var.zone
 }
 
 resource "google_project_iam_member" "my-project" {
@@ -48,18 +47,18 @@ resource "google_storage_bucket_object" "cf-tasks" {
 resource "google_bigquery_dataset" "task-cf-dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is public"
-  location    = var.zone
+  location    = var.location
 }
 
 resource "google_bigquery_table" "task-cf-table" {
-  dataset_id = var.dataset_id
+  dataset_id = google_bigquery_dataset.task-cf-dataset.dataset_id
   table_id   = var.table_id
   schema     = file("../schemas/task-cf-raw.json")
   deletion_protection = false
 
-  depends_on = [
-    google_bigquery_dataset.task-cf-dataset
-  ]
+  # depends_on = [
+  #   google_bigquery_dataset.task-cf-dataset
+  # ]
 }
 
 resource "google_pubsub_topic" "cf-subtask-ps-topic" {
@@ -127,7 +126,7 @@ resource "google_cloudbuild_trigger" "github-cloud-trigger" {
   project = var.project_id
   name = "github-cloud-trigger"
   filename = "cloudbuild.yaml"
-  location = "us-central1"
+  location = var.location
   github {
     owner = "nazarivankevych"
     name = "cf_task"
