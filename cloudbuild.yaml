@@ -1,7 +1,7 @@
 substitutions:
   _APP: 'cf-task'
-  _PY_DIR: 'cf-tasks/function'
-  _TF_DIR: 'cf-tasks/terraform'
+  _PY_DIR: 'task-cf/function'
+  _TF_DIR: 'task-cf/terraform'
   _TF_ACTION: 'apply'
 
 steps:
@@ -29,7 +29,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform plan -out=../plan.out'
+      - 'terraform plan'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
@@ -37,7 +37,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform apply -auto-approve ../plan.out'
+      - 'terraform apply -auto-approve'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
@@ -52,33 +52,6 @@ steps:
   #   args:
   #     - '-c'
   #     - 'terraform apply plan.out'
-
-  - id: "Activate virtual environment venv"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: '/bin/bash'
-    args: [ '-c', 'source /venv/bin/activate' ]
-    waitFor: ['-']
-
-  - id: "Create dataflow template"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: 'python'
-    args: [ '-m', 'task-df.function.main',
-      "--input_subscription=projects/task-cf-370710/topics/cf-pub_sub-topic",
-      "--output_table=task-cf-370710:task-df-dataset.dataflow-df-table",
-      "--output_error_table=task-cf-370710:task-df-dataset.dataflow-df-error-table",
-      "--job_name=dataflow_job",
-      "--project=task-cf-370710",
-      "--region=us-central1",
-      "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
-      "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
-      "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
-      "--runner=DataflowRunner",
-      "--setup_file='task-df/function/setup.py'",
-      "--autoscaling_algorithm=NONE"
-    ]
-    waitFor: [
-      'Activate virtual environment venv'
-      ]
 
 options:
   logging: CLOUD_LOGGING_ONLY
