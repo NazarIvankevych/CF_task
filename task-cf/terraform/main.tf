@@ -125,7 +125,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 resource "google_cloudbuild_trigger" "github-cloud-trigger" {
   project = var.project_id
   name = "github-cloud-trigger"
-  filename = "cloudbuild.yaml"
+  filename = "task-cf/cloudbuild.yaml"
   location = var.location
   github {
     owner = "nazarivankevych"
