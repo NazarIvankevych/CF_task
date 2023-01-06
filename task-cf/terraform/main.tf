@@ -100,8 +100,9 @@ resource "google_cloudfunctions_function" "task-cf-function" {
 
   environment_variables = {
     PROJECT_ID    = var.project_id
-    OUTPUT_TABLE  = "${google_bigquery_dataset.task-cf-dataset.dataset_id}.${google_bigquery_table.task-cf-table.table_id}"
-    TOPIC_ID      = var.topic_id
+    DATASET_ID = var.dataset_id
+    OUTPUT_TABLE  = var.table_id
+    TOPIC_ID      = google_pubsub_topic.cf-subtask-ps-topic.name
   }
 
   # depends_on = [
@@ -122,11 +123,10 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   member = "allUsers"
 }
 
-resource "google_cloudbuild_trigger" "task-cf-trigger" {
+resource "google_cloudbuild_trigger" "github-cloud-trigger" {
   project = var.project_id
-  name = "github-cloud-trigger"
+  name = "task-cf-trigger"
   filename = "task-cf/cloudbuild.yaml"
-  location = "us-central1"
   github {
     owner = "nazarivankevych"
     name = "cf_task"

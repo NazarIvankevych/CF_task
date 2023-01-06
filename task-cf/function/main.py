@@ -12,10 +12,11 @@ from google.cloud.pubsub_v1 import PublisherClient
 
 logging.basicConfig(level=logging.INFO)
 
-PROJECT_ID = getenv("task-cf-370710")
-DATASET_ID = getenv("task_cf_dataset")
-OUTPUT_TABLE = getenv("cf-tasks-table")
-PUBSUB_TOPIC_NAME = getenv("cf-pub_sub-topic")
+
+PROJECT_ID = getenv("PROJECT_ID")
+DATASET_ID = getenv("DATASET_ID")
+OUTPUT_TABLE = getenv("OUTPUT_TABLE")
+PUBSUB_TOPIC_NAME = getenv("TOPIC_ID")
 
 
 class PubSubPublisher:
@@ -63,13 +64,16 @@ def store_data_into_bq(dataset, timestamp, event):
 
 def store_data_into_pubsub(event):
     ps_client = PublisherClient()
-    ps_object = PubSubPublisher(ps_client, PROJECT_ID, TOPIC_ID)
+    ps_object = PubSubPublisher(ps_client, PROJECT_ID, PUBSUB_TOPIC_NAME)
     data = bytes(event, 'utf-8')
     ps_object.publish(data)
 
 
 def main(request):
     logging.info("Request: %s", request)
+    # CHeck if everything is working
+    if request.method == "GET":
+        return "Your function is working!"
 
     if request.method == "POST":  # currently function works only with POST method
 
@@ -81,7 +85,7 @@ def main(request):
                 {'Content-Type': 'application/json; charset=utf-8'}
 
         timestamp = time.time()
-        dataset = f"{PROJECT_ID}.{OUTPUT_TABLE}"
+        dataset = f"{PROJECT_ID}.{DATASET_ID}.{OUTPUT_TABLE}"
         store_data_into_bq(dataset,
                            convert_timestamp_to_sql_date_time(timestamp),
                            event)
