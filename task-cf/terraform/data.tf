@@ -9,9 +9,3 @@ data "archive_file" "task-cf" {
     source_dir = "../function"
     output_path = "/tmp/function.zip"
 }
-
-# data "archive_file" "dataflow" {
-#     type        = "zip"
-#     source_dir = "../function/dataflow-functions/"
-#     output_path = "/tmp/dataflow_function.zip"
-# }

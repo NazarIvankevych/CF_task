@@ -11,9 +11,9 @@ variable "region" {
 }
 
 variable "location" {
-    default     = "us-central1"
+    default     = "US"
     type        = string
-    description = "Zone"
+    description = "Location"
 }
 
 variable "dataset_id" {
@@ -34,11 +34,6 @@ variable "deletion_protection" {
 
 variable "force_destroy" {
     default = true
-}
-
-variable "bucket_id" {
-    type = string
-    default = "cf-task-nazar"
 }
 
 variable "topic_id" {

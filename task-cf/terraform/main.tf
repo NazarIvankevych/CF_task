@@ -25,7 +25,7 @@ resource "google_project_iam_member" "cloud-build-project" {
 
 resource "google_storage_bucket" "task-cf-bucket" {
   name = "${var.project_id}-bucket"
-  location = var.region
+  location = var.location
   force_destroy = true
   lifecycle {
     prevent_destroy = false
@@ -122,11 +122,11 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   member = "allUsers"
 }
 
-resource "google_cloudbuild_trigger" "github-cloud-trigger" {
+resource "google_cloudbuild_trigger" "task-cf-trigger" {
   project = var.project_id
   name = "github-cloud-trigger"
   filename = "task-cf/cloudbuild.yaml"
-  location = var.location
+  location = "us-central1"
   github {
     owner = "nazarivankevych"
     name = "cf_task"

@@ -1,8 +1,8 @@
 # dirs
 venv/
 .idea/
-task-cf/terraform/.terraform/
-task-df/terraform/.terraform/
+task-cf/terraform/
+task-df/terraform/
 
 
 # files

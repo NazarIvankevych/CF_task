@@ -1,8 +1,8 @@
-# substitutions:
-#   _APP: 'cf-task'
-#   _PY_DIR: 'task-cf/function'
-#   _TF_DIR: 'task-cf/terraform'
-#   _TF_ACTION: 'apply'
+substitutions:
+  _APP: 'task-cf'
+  _PY_DIR: 'task-cf/function'
+  _TF_DIR: 'task-cf/terraform'
+  _TF_ACTION: 'apply'
 
 steps:
   - id: "ls"
