@@ -55,10 +55,6 @@ resource "google_bigquery_table" "task-cf-table" {
   table_id   = var.table_id
   schema     = file("../schemas/task-cf-raw.json")
   deletion_protection = false
-
-  # depends_on = [
-  #   google_bigquery_dataset.task-cf-dataset
-  # ]
 }
 
 resource "google_pubsub_topic" "cf-subtask-ps-topic" {
@@ -104,14 +100,6 @@ resource "google_cloudfunctions_function" "task-cf-function" {
     OUTPUT_TABLE  = var.table_id
     TOPIC_ID      = google_pubsub_topic.cf-subtask-ps-topic.name
   }
-
-  # depends_on = [
-  #   google_bigquery_dataset.task-cf-dataset,
-  #   google_storage_bucket.task-cf-bucket,
-  #   google_storage_bucket_object.cf-tasks,
-  #   google_pubsub_topic.cf-subtask-ps-topic,
-  #   google_pubsub_subscription.cf-subtask-ps-subscription
-  # ]
 }
 
 resource "google_cloudfunctions_function_iam_member" "invoker" {
