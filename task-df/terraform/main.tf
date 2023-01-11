@@ -10,7 +10,6 @@ provider "google" {
   # Configuration options
   project = var.project_id
   region = var.region
-  zone = var.zone
 }
 
 resource "google_project_iam_member" "my-project" {
@@ -107,8 +106,8 @@ resource "google_bigquery_table" "dataflow-df-error-table" {
 # }
 
 resource "google_dataflow_job" "big_data_job" {
-  name                  = "dataflow-job-task"
-  template_gcs_path     = "gs://task-df/template/dataflow-job"
-  temp_gcs_location     = "gs://task-df/tmp"
+  name                  = "dataflow-job"
+  template_gcs_path     = "gs://task-cf-370710-dataflow-bucket/template/dataflow-job"
+  temp_gcs_location     = "gs://task-cf-370710-dataflow-bucket/tmp"
   service_account_email = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }

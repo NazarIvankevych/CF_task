@@ -10,10 +10,10 @@ variable "region" {
     description = "Region"
 }
 
-variable "zone" {
-    default     = "us-central1-c"
+variable "location" {
+    default     = "US"
     type        = string
-    description = "Zone"
+    description = "Location"
 }
 
 variable "dataset_id" {

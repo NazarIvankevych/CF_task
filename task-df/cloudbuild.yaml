@@ -7,17 +7,17 @@ steps:
 
   - id: "Create dataflow template"
     name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: 'python'
-    args: [ '-m', 'task-df.function.main',
-      "--input_subscription=projects/task-cf-370710/topics/cf-pub_sub-topic",
-      "--output_table=task-cf-370710:task-df-dataset.dataflow-df-table",
-      "--output_error_table=task-cf-370710:task-df-dataset.dataflow-df-error-table",
-      "--job_name=dataflow_job",
+    entrypoint: 'python3'
+    args: [ 'task-df/main.py',
+      "--job_name=dataflow-job",
       "--project=task-cf-370710",
       "--region=us-central1",
-      "--template_location=gs://task-cf-370710-dataflow-templates/my-template/templates/template_test",
-      "--staging_location=gs://task-cf-370710-dataflow-templates/my-template/staging/",
-      "--temp_location=gs://task-cf-370710-dataflow-templates/my-template/temp/",
+      "--staging_location=gs://task-cf-370710-dataflow-bucket/tmp",
+      "--temp_location=gs://task-cf-370710-dataflow-bucket/tmp",
+      "--template_location=gs://task-cf-370710-dataflow-bucket/template/dataflow-job",
+      "--input_subscription=projects/task-cf-370710/subscriptions/cf-pub_sub-subscription",
+      "--output_table=task-cf-370710:task_df_dataset.table-df-table-dataflow",
+      "--output_error_table=task-cf-370710:task_df_dataset.table-df-table-dataflow-error",
       "--runner=DataflowRunner",
       "--setup_file='task-df/function/setup.py'",
       "--autoscaling_algorithm=NONE"
