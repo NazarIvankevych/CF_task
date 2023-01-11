@@ -1,11 +1,11 @@
 # dirs
 venv/
 .idea/
-cf-tasks/terraform/.terraform/
-cf-tasks/terraform/.terraform.lock.hcl
-cf-tasks/terraform/terraform.tfstate
-cf-tasks/terraform/terraform.tfstate.backup
+task-cf/terraform/.terraform/
+task-df/terraform/.terraform/
+
 
 # files
 gcp_creds.json
-# проста зміна
+task-cf/terraform/.terraform.lock.hcl
+task-df/terraform/.terraform.lock.hcl
