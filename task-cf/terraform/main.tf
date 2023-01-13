@@ -39,7 +39,7 @@ resource "google_storage_bucket_object" "cf-tasks" {
   bucket = google_storage_bucket.task-cf-bucket.name
 
   depends_on = [
-    google_storage_bucket.task-cf-bucket,
+    google_storage_bucket.task-cf-bucket.name,
     data.archive_file.task-cf
   ]
 }
