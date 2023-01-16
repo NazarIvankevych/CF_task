@@ -47,7 +47,7 @@ resource "google_storage_bucket_object" "task-df-object" {
 resource "google_bigquery_dataset" "task-df-dataset" {
   dataset_id  = var.dataset_id
   description = "This dataset is public"
-  location    = var.region
+  location    = var.location
 }
 
 resource "google_bigquery_table" "dataflow-df-table" {

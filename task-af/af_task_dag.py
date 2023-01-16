@@ -23,7 +23,7 @@ with DAG(
     # CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
 
     AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
-    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.table-df-table-dataflow"
+    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.table-dataflow"
 
     AF_TASK_OUTPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
     AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.table-af-airflow"
@@ -36,7 +36,7 @@ with DAG(
     airflow_BQ_task = bigquery_operator.BigQueryOperator(
         dag=dag,
         task_id="af_task_BQ_job",
-        sql="sql/af_task_query.sql",
+        sql="af_task_query.sql",
         use_legacy_sql=False,
         write_disposition="WRITE_APPEND",
         allow_large_results=True,
