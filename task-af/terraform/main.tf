@@ -23,3 +23,16 @@ resource "google_bigquery_table" "table" {
     schema     = file("../schemas/airflow_schema.json")
     deletion_protection = false
 }
+
+resource "google_cloudbuild_trigger" "airflow-trigger" {
+  project = var.project_id
+  name = "task-af-trigger"
+  filename = "task-af/cloudbuild.yaml"
+  github {
+    owner = "nazarivankevych"
+    name = "cf_task"
+    push {
+      branch = "airflow-task"
+    }
+  }
+}
