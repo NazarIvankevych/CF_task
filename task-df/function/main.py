@@ -116,8 +116,8 @@ if "__main__" == __name__:
         options=pipeline_options,
         
         input_subscription="projects/task-cf-370710/subscriptions/cf-pub_sub-subscription",
-        output_table="task-cf-370710:task_df_dataset.table-df-table-dataflow",
-        output_error_table="task-cf-370710:task_df_dataset.table-df-table-dataflow-error",
+        output_table="task-cf-370710:task_df_dataset.table-dataflow",
+        output_error_table="task-cf-370710:task_df_dataset.table-dataflow-error",
     )
 
 # python3 -m main --input_subscription "projects/task-cf-370710/subscriptions/cf-pub_sub-subscription" --output_table "task-cf-370710.dataflow.dataflow-cf-raw" --output_error_table "task-cf-370710.dataflow.dataflow-cf-error-raw" --streaming

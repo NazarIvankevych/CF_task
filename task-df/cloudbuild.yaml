@@ -16,12 +16,12 @@ steps:
       "--temp_location=gs://task-cf-370710-dataflow-bucket/tmp",
       "--template_location=gs://task-cf-370710-dataflow-bucket/template/dataflow-job",
       "--input_subscription=projects/task-cf-370710/subscriptions/cf-pub_sub-subscription",
-      "--output_table=task-cf-370710:task_df_dataset.table-df-table-dataflow",
-      "--output_error_table=task-cf-370710:task_df_dataset.table-df-table-dataflow-error",
+      "--output_table=task-cf-370710:task_df_dataset.table-dataflow",
+      "--output_error_table=task-cf-370710:task_df_dataset.table-dataflow-error",
       "--runner=DataflowRunner",
       "--setup_file='task-df/function/setup.py'",
       "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
-      'Activate virtual environment venv'
+      'Activate virtual environment venv', 'tf init', 'tf plan', 'tf apply'
       ]

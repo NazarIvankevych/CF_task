@@ -54,6 +54,7 @@ resource "google_bigquery_table" "dataflow-df-table" {
   dataset_id = var.dataset_id
   table_id   = var.table_id
   schema     = file("../schemas/dataflow-cf-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-df-dataset
@@ -64,6 +65,7 @@ resource "google_bigquery_table" "dataflow-df-error-table" {
   dataset_id = var.dataset_id
   table_id   = var.table-error_id
   schema     = file("../schemas/dataflow-cf-error-raw.json")
+  deletion_protection = false
 
   depends_on = [
     google_bigquery_dataset.task-df-dataset
