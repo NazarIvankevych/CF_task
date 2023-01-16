@@ -5,15 +5,15 @@ substitutions:
   _TF_ACTION: 'apply'
 
 steps:
-  - id: "ls"
-    name: 'ubuntu'
-    args:
-      - 'ls'
+  # - id: "ls"
+  #   name: 'ubuntu'
+  #   args:
+  #     - 'ls'
   
-  - id: "pwd"
-    name: 'ubuntu'
-    args:
-      - 'pwd'
+  # - id: "pwd"
+  #   name: 'ubuntu'
+  #   args:
+  #     - 'pwd'
 
   - id: 'tf init'
     name: 'hashicorp/terraform:1.0.0'
@@ -29,7 +29,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform plan'
+      - 'terraform plan -lock=false -out=plan.out'
 
   - id: 'tf apply'
     name: 'hashicorp/terraform:1.0.0'
@@ -37,7 +37,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform apply -auto-approve'
+      - 'terraform apply -auto-approve plan.out'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'

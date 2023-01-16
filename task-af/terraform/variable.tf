@@ -17,12 +17,12 @@ variable "location" {
 }
 
 variable "bucket_id" {
-  type = string
-  default = "task-af-airlfow-254789"
+    type = string
+    default = "task-af-airlfow"
 }
 
 variable "dataset_id" {
-    default     = "task_af_dataset"
+    default     = "task_df_dataset"
     type        = string
     description = "Dataset ID"
 }
@@ -31,12 +31,4 @@ variable "table_id" {
     default     = "table-af-airflow"
     type        = string
     description = "Table airflow task ID"
-}
-
-variable "deletion_protection" {
-    default = false
-}
-
-variable "force_destroy" {
-    default = true
 }

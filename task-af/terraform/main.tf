@@ -1,6 +1,6 @@
 terraform {
     backend "gcs" {
-        prefix = "task-df"
+        prefix = "task-af"
         bucket = "big-data-bucket125478"
     }
 }
@@ -12,7 +12,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "bucket" {
-    name     = var.bucket_id
+    name     = "${var.project_id}-airflow-bucket"
     location = var.location
     force_destroy = true
 }

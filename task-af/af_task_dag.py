@@ -13,23 +13,23 @@ with DAG(
         "af_task_job",
         schedule_interval="0 * * * *",
         default_args={
-            'start_date': datetime(2022, 12, 27),
+            'start_date': datetime(2023, 1, 16),
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
 
-    PROJECT_ID = os.getenv('GCP_PROJECT')
-    ENV = PROJECT_ID[-3:]
-    CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
+    PROJECT_ID = os.getenv('task-cf-370710')
+    # ENV = PROJECT_ID[-3:]
+    # CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
 
-    AF_TASK_INPUT_DATASET_NAME = f"project-name.your_input_dataset_name"
-    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.your-input-table-reporting"
+    AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
+    AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.table-df-table-dataflow"
 
-    AF_TASK_OUTPUT_DATASET_NAME = f"project-name.your_output_dataset_name"
-    AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.your-output-table-reporting"
+    AF_TASK_OUTPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
+    AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.table-af-airflow"
 
-    gcs_bucket_name = f"gs://{PROJECT_ID}-your-bucket-name/"
-    gcs_file_name = 'your_file_name.json'
+    gcs_bucket_name = f"gs://{PROJECT_ID}-airflow-bucket/"
+    gcs_file_name = 'bq_to_gcs.json'
     gcs_file_full_name = f"{gcs_bucket_name}{gcs_file_name}"
 
     # BigQuery Task

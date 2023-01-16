@@ -39,7 +39,7 @@ resource "google_storage_bucket_object" "cf-tasks" {
   bucket = google_storage_bucket.task-cf-bucket.name
 
   depends_on = [
-    google_storage_bucket.task-cf-bucket.name,
+    google_storage_bucket.task-cf-bucket,
     data.archive_file.task-cf
   ]
 }
@@ -119,7 +119,7 @@ resource "google_cloudbuild_trigger" "github-cloud-trigger" {
     owner = "nazarivankevych"
     name = "cf_task"
     push {
-      branch = "dataflow"
+      branch = "airflow-task"
     }
   }
 }
