@@ -4,7 +4,7 @@ substitutions:
 steps:
   - id: 'rsync airflow jobs'
     name: 'gcr.io/cloud-builders/gsutil'
-    dir: '${_DIR}/${_APP}'
+    dir: '${_APP}'
     entrypoint: bash
     args:
       - '-c'
