@@ -37,7 +37,7 @@ steps:
     dir: 'task-cf/terraform'
     args:
       - '-c'
-      - 'terraform apply -auto-approve plan.out'
+      - 'terraform apply -auto-approve -lock=false plan.out'
   
   # - id: 'tf destroy'
   #   name: 'hashicorp/terraform:1.0.0'
