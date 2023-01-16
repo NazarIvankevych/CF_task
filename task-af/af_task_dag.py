@@ -36,7 +36,7 @@ with DAG(
     airflow_BQ_task = bigquery_operator.BigQueryOperator(
         dag=dag,
         task_id="af_task_BQ_job",
-        sql="af_task_query.sql",
+        sql="sql/af_task_query.sql",
         use_legacy_sql=False,
         write_disposition="WRITE_APPEND",
         allow_large_results=True,
