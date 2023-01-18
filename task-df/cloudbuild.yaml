@@ -1,12 +1,12 @@
 steps:
   - id: "Activate virtual environment venv"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
+    name: 'gcr.io/task-cf-370710/dataflow-python3'
     entrypoint: '/bin/bash'
     args: [ '-c', 'source /venv/bin/activate' ]
     waitFor: ['-']
 
   - id: "Create dataflow template"
-    name: 'gcr.io/task-cf-370710/dataflow-python38'
+    name: 'gcr.io/task-cf-370710/dataflow-python3'
     entrypoint: 'python'
     args: [ 'm', 'task-df/main.py',
       "--job_name=dataflow-job",
