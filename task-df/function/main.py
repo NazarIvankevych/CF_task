@@ -128,5 +128,5 @@ if "__main__" == __name__:
         options=pipeline_options,
         input_subscription=args.input_subscription,
         output_table=args.output_table,
-        output_error_table=args.output_error_table
+        output_error_table=args.output_error_table,
     )
