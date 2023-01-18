@@ -79,7 +79,7 @@ resource "google_dataflow_job" "big_data_job" {
   service_account_email = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
 
-resource "google_cloudbuild_trigger" "airflow-trigger" {
+resource "google_cloudbuild_trigger" "dataflow-trigger" {
   project = var.project_id
   name = "task-df-trigger"
   filename = "task-df/cloudbuild.yaml"
