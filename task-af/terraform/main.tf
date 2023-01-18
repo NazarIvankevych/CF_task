@@ -42,5 +42,3 @@ resource "google_cloudbuild_trigger" "airflow-trigger" {
     "_APP": "task-af"
   }
 }
-
-# Something
