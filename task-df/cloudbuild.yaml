@@ -23,5 +23,5 @@ steps:
       "--autoscaling_algorithm=NONE"
     ]
     waitFor: [
-      'Activate virtual environment venv', 'tf init', 'tf plan', 'tf apply'
+      'Activate virtual environment venv'
       ]
