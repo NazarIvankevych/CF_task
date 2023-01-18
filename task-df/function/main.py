@@ -105,7 +105,7 @@ if "__main__" == __name__:
         '--runner', required=False, default="DataflowRunner",
         help='task-df runner')
     parser.add_argument(
-        '--setup_file', required=False, default="../function/setup.py",
+        '--setup_file', required=False, default="setup.py",
         help='Requirements setup file path')
     parser.add_argument(
         '--autoscaling_algorithm', required=False, default=None,
@@ -130,7 +130,3 @@ if "__main__" == __name__:
         output_table=args.output_table,
         output_error_table=args.output_error_table
     )
-
-# python3 -m main --input_subscription "projects/task-cf-370710/subscriptions/cf-pub_sub-subscription" --output_table "task-cf-370710.task_df_dataset.table-dataflow" --output_error_table "task-cf-370710.task_df_dataset.table-dataflow-error" --project "task-cf-370710" [--region "US"] [--job_name "dataflow-job"] --template_location "gs://task-cf-370710-dataflow-bucket/template/dataflow-job" --staging_location "gs://task-cf-370710-dataflow-bucket/tmp" --temp_location "gs://task-cf-370710-dataflow-bucket/tmp" [--runner "DataflowRunner"] [--setup_file "task-df/function/setup.py"]
-
-# python3 -m main --input_subscription "projects/task-cf-370710/subscriptions/cf-pub_sub-subscription" --output_table "task-cf-370710.task_df_dataset.table-dataflow" --output_error_table "task-cf-370710.task_df_dataset.table-dataflow-error" --project "task-cf-370710" --template_location "gs://task-cf-370710-dataflow-bucket/template/dataflow-job" --staging_location "gs://task-cf-370710-dataflow-bucket/tmp" --temp_location "gs://task-cf-370710-dataflow-bucket/tmp"

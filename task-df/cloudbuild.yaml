@@ -7,8 +7,8 @@ steps:
 
   - id: "Create dataflow template"
     name: 'gcr.io/task-cf-370710/dataflow-python38'
-    entrypoint: 'python3'
-    args: [ 'task-df/main.py',
+    entrypoint: 'python'
+    args: [ 'm', 'task-df/main.py',
       "--job_name=dataflow-job",
       "--project=task-cf-370710",
       "--region=us-central1",
