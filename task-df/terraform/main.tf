@@ -78,3 +78,16 @@ resource "google_dataflow_job" "big_data_job" {
   temp_gcs_location     = "gs://task-cf-370710-dataflow-bucket/tmp"
   service_account_email = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
+
+resource "google_cloudbuild_trigger" "airflow-trigger" {
+  project = var.project_id
+  name = "task-df-trigger"
+  filename = "task-df/cloudbuild.yaml"
+  github {
+    owner = "nazarivankevych"
+    name = "cf_task"
+    push {
+      branch = "airflow-task"
+    }
+  }
+}
