@@ -13,14 +13,12 @@ with DAG(
         "airflow-task",
         schedule_interval="0 * * * *",
         default_args={
-            'start_date': datetime(2023, 1, 18),
+            'start_date': datetime(2023, 1, 19),
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
 
-    PROJECT_ID = os.getenv('task-cf-370710')
-    # ENV = PROJECT_ID[-3:]
-    # CORE_CATALOGUE_ENV = "stg" if ENV == "dev" else ENV
+    PROJECT_ID = os.getenv('GCP_PROJECT')
 
     AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
     AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.table-dataflow"
@@ -28,7 +26,7 @@ with DAG(
     AF_TASK_OUTPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
     AF_TASK_OUTPUT_TABLE = f"{AF_TASK_OUTPUT_DATASET_NAME}.table-af-airflow"
 
-    gcs_bucket_name = f"gs://{PROJECT_ID}-airflow-bucket/"
+    gcs_bucket_name = f"gs://{PROJECT_ID}-us-central1-airflow-task-7dcc9293-bucket/"
     gcs_file_name = 'bq_to_gcs.json'
     gcs_file_full_name = f"{gcs_bucket_name}{gcs_file_name}"
 

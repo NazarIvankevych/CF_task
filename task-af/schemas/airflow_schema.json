@@ -1,6 +1,28 @@
 [
     {
         "name": "message",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "number",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "age",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "timestamp",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "multiple",
+        "type": "INT64",
+        "mode":"REQUIRED" 
         "type": "STRING"
     },
     {
