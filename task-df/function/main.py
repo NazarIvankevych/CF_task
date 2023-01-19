@@ -94,12 +94,15 @@ if "__main__" == __name__:
         help='Dataflow Job name')
     parser.add_argument(
         '--template_location', required=True,
+        default="gs://task-cf-370710-dataflow-bucket/template/dataflow-job",
         help='Template location')
     parser.add_argument(
         '--staging_location', required=True,
+        default="gs://task-cf-370710-dataflow-bucket/tmp",
         help='Staging location')
     parser.add_argument(
         '--temp_location', required=True,
+        default="gs://task-cf-370710-dataflow-bucket/tmp",
         help='Temporary location')
     parser.add_argument(
         '--runner', required=False, default="DataflowRunner",
