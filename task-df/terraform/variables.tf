@@ -23,13 +23,13 @@ variable "dataset_id" {
 }
 
 variable "table_id" {
-    default     = "table-df-table-dataflow"
+    default     = "table-dataflow"
     type        = string
     description = "Table dataflow task ID"
 }
 
 variable "table-error_id" {
-    default     = "table-df-table-dataflow-error"
+    default     = "table-dataflow-error"
     type        = string
     description = "Table dataflow-error task ID"
 }
@@ -49,10 +49,10 @@ variable "bucket_id" {
 
 variable "topic_id" {
     type = string
-    default = "cf-pub_sub-topic"
+    default = "df-pub_sub-topic"
 }
 
 variable "subscription_id" {
     type = string
-    default = "cf-pub_sub-subscription"
+    default = "df-pub_sub-subscription"
 }

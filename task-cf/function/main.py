@@ -76,8 +76,8 @@ def main(request):
         return "Your function is working!"
 
     if request.method == "POST":  # currently function works only with POST method
-
         event: str
+
         try:
             event = json.dumps(request.json)
         except TypeError as error:

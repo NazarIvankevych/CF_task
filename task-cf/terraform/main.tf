@@ -119,7 +119,7 @@ resource "google_cloudbuild_trigger" "github-cloud-trigger" {
     owner = "nazarivankevych"
     name = "cf_task"
     push {
-      branch = "dataflow"
+      branch = "airflow-task"
     }
   }
 }
