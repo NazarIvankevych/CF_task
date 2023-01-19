@@ -18,7 +18,7 @@ with DAG(
         },
 ) as dag:
 
-    PROJECT_ID = os.getenv('task-cf-370710')
+    PROJECT_ID = os.getenv('GCP_PROJECT')
 
     AF_TASK_INPUT_DATASET_NAME = f"{PROJECT_ID}.task_df_dataset"
     AF_TASK_INPUT_TABLE = f"{AF_TASK_INPUT_DATASET_NAME}.table-dataflow"
