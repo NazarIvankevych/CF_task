@@ -6,12 +6,12 @@
   },
   {
     "name": "number",
-    "type": "INTEGER",
+    "type": "INT64",
     "mode": "NULLABLE"
   },
   {
     "name": "age",
-    "type": "INTEGER",
+    "type": "INT64",
     "mode": "NULLABLE"
   },
   {

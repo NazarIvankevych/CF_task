@@ -2,9 +2,9 @@ import json
 import time
 from datetime import datetime
 import random
-from google.auth import jwt
-from google.cloud import pubsub_v1
 import datetime
+
+from google.cloud import pubsub_v1
 
 # --- Base variables and auth path
 PROJECT_ID = "task-cf-370710"
@@ -40,7 +40,7 @@ def main():
         now = datetime.datetime.utcnow()
         if i in err_idx:
             data = {
-                "msg": f"message-{i}",
+                "message": f"message-{i}",
                 "number": "not an int",
                 "age": random.random()
             }
@@ -48,7 +48,7 @@ def main():
             data = {
                 "message": f"message-{i}",
                 "number": random.randint(0, 10),
-                "age": random.random(),
+                "age": random.randint(10, 30),
                 "timestamp": now.strftime('%Y-%m-%d %H:%M:%S')
             }
         publisher.publish(json.dumps(data))

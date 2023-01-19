@@ -9,8 +9,8 @@ from apache_beam.options.pipeline_options import PipelineOptions
 SCHEMA = ",".join(
     [
         "message:STRING",
-        "number:INTEGER",
-        "age:INTEGER",
+        "number:INT64",
+        "age:INT64",
         "timestamp:TIMESTAMP",
     ]
 )
