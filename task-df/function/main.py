@@ -8,9 +8,9 @@ from apache_beam.options.pipeline_options import PipelineOptions
 
 SCHEMA = ",".join(
     [
-        "name:STRING",
+        "message:STRING",
         "age:INTEGER",
-        "height:FLOAT64",
+        "height:FLOAT",
         "timestamp:TIMESTAMP",
     ]
 )
@@ -29,13 +29,13 @@ class Parser(beam.DoFn):
     def process(self, line):
         try:
             line = json.loads(line.decode("utf-8"))
-            if not ("name" in line or "age" in line):
-                raise ValueError("Missing required parameters: 'name' and 'age' fields should be specified")
-            line["timestamp"] = datetime.datetime.utcnow()
+            if not ("message" in line or "age" in line):
+                raise ValueError("Missing required parameters: 'message' and 'age' fields should be specified")
+            line["timestamp"] = datetime.datetime.now()
             yield line
 
         except Exception as error:
-            err_record = {"msg": str(error), "timestamp": datetime.datetime.utcnow()}
+            err_record = {"msg": str(error), "timestamp": datetime.datetime.now()}
             yield beam.pvalue.TaggedOutput(self.ERROR_TAG, err_record)
 
 
