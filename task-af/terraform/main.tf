@@ -32,8 +32,8 @@ resource "google_cloudbuild_trigger" "airflow-trigger" {
         owner = "nazarivankevych"
         name = "cf_task"
         push {
-            branch = "^task-airflow$"
-    }
+            branch = "^master$"
+        }
     }
     substitutions = {
         "_APP": "task-af"
