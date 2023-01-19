@@ -1,8 +1,7 @@
 WITH
 multiple AS (
     SELECT
-        *,
-        number*age,
+        output_table.age*output_table.number,
         output_table.timestamp
     FROM
         `{{ params.AF_TASK_INPUT_TABLE }}` output_table
