@@ -39,6 +39,6 @@ resource "google_cloudbuild_trigger" "airflow-trigger" {
     "_COMPOSER_ENV_NAME": var.af-composer-name,
     "_COMPOSER_LOCATION": var.af-composer-location,
     "_LOCATION": var.af-composer-location,
-    "_APP": "task-af"
+    "_APP": "/task-af/"
   }
 }
