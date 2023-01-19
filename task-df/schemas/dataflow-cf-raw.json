@@ -5,13 +5,13 @@
     "mode": "REQUIRED"
   },
   {
-    "name": "age",
-    "type": "INTEGER",
+    "name": "name",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
-    "name": "height",
-    "type": "FLOAT64",
+    "name": "age",
+    "type": "INTEGER",
     "mode": "NULLABLE"
   },
   {
