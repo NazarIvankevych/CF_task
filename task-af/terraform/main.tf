@@ -17,7 +17,7 @@ resource "google_storage_bucket" "bucket" {
     force_destroy = true
 }
 
-resource "google_bigquery_table" "table" {
+resource "google_bigquery_table" "airflow_table" {
     dataset_id = var.dataset_id
     table_id   = var.table_id
     schema     = file("../schemas/airflow_schema.json")
@@ -32,7 +32,7 @@ resource "google_cloudbuild_trigger" "airflow-trigger" {
     owner = "nazarivankevych"
     name = "cf_task"
     push {
-      branch = "airflow-task"
+      branch = "task-aiflow"
     }
   }
   substitutions = {

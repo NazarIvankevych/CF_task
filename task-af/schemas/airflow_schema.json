@@ -4,19 +4,19 @@
         "type": "STRING"
     },
     {
-        "name": "number_int",
-        "type": "INTEGER"
+        "name": "age",
+        "type": "INT64"
     },
     {
-        "name": "number_float",
-        "type": "FLOAT"
+        "name": "name",
+        "type": "STRING"
     },
     {
         "name": "timestamp",
         "type": "TIMESTAMP"
     },
     {
-        "name": "sum",
-        "type": "FLOAT"
+        "name": "greeting",
+        "type": "STRING"
     }
 ]

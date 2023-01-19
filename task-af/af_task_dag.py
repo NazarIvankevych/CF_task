@@ -13,7 +13,7 @@ with DAG(
         "airflow-task",
         schedule_interval="0 * * * *",
         default_args={
-            'start_date': datetime(2023, 1, 18),
+            'start_date': datetime(2023, 1, 19),
             **DEFAULT_DAG_ARGS,
         },
 ) as dag:
