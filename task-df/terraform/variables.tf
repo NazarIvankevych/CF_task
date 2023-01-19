@@ -49,10 +49,10 @@ variable "bucket_id" {
 
 variable "topic_id" {
     type = string
-    default = "cf-pub_sub-topic"
+    default = "df-pub_sub-topic"
 }
 
 variable "subscription_id" {
     type = string
-    default = "cf-pub_sub-subscription"
+    default = "df-pub_sub-subscription"
 }

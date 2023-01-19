@@ -34,13 +34,13 @@ resource "google_storage_bucket" "task-df-bucket" {
 }
 
 resource "google_storage_bucket_object" "task-df-object" {
-  source   = data.archive_file.source.output_path
+  source   = data.archive_file.task-df-source.output_path
   content_type = "application/zip"
-  name = "src-${data.archive_file.source.output_md5}.task-df-object"
+  name = "src-${data.archive_file.task-df-source.output_md5}.task-df-object"
   bucket = google_storage_bucket.task-df-bucket.name
     depends_on = [
       google_storage_bucket.task-df-bucket,
-      data.archive_file.source
+      data.archive_file.task-df-source
   ]
 }
 
@@ -70,6 +70,30 @@ resource "google_bigquery_table" "dataflow-df-error-table" {
   depends_on = [
     google_bigquery_dataset.task-df-dataset
   ]
+}
+
+resource "google_pubsub_topic" "df-ps-topic" {
+  project = var.project_id
+  name = var.topic_id
+}
+
+resource "google_pubsub_subscription" "df-ps-subscription" {
+  project = var.project_id
+  name                             = var.subscription_id
+  topic                            = google_pubsub_topic.df-ps-topic.name
+}
+
+resource "google_pubsub_topic_iam_member" "member" {
+  project = google_pubsub_topic.df-ps-topic.project
+  topic = google_pubsub_topic.df-ps-topic.name
+  role = "roles/owner"
+  member = "allUsers"
+}
+
+resource "google_pubsub_subscription_iam_member" "sub-owner" {
+  subscription = google_pubsub_subscription.df-ps-subscription.name
+  role = "roles/owner"
+  member = "allUsers"
 }
 
 resource "google_dataflow_job" "big_data_job" {

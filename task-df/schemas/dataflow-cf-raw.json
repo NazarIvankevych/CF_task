@@ -5,8 +5,8 @@
     "mode": "REQUIRED"
   },
   {
-    "name": "name",
-    "type": "STRING",
+    "name": "number",
+    "type": "INTEGER",
     "mode": "NULLABLE"
   },
   {
