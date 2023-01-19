@@ -24,21 +24,20 @@ resource "google_bigquery_table" "airflow_table" {
     deletion_protection = false
 }
 
-# resource "google_cloudbuild_trigger" "airflow-trigger" {
-#   project = var.project_id
-#   name = "task-af-trigger"
-#   filename = "task-af/cloudbuild.yaml"
-#   github {
-#     owner = "nazarivankevych"
-#     name = "cf_task"
-#     push {
-#       branch = "task-aiflow"
-#     }
-#   }
-#   substitutions = {
-#     "_COMPOSER_ENV_NAME": var.af-composer-name,
-#     "_COMPOSER_LOCATION": var.af-composer-location,
-#     # "_LOCATION": var.af-composer-location,
-#     "_APP": "task-af"
-#   }
-# }
+resource "google_cloudbuild_trigger" "airflow-trigger" {
+  project = var.project_id
+  name = "task-af-trigger"
+  filename = "task-af/cloudbuild.yaml"
+  github {
+    owner = "nazarivankevych"
+    name = "cf_task"
+    push {
+      branch = "^task-airflow$"
+    }
+  }
+  substitutions = {
+    "_APP": "task-af"
+    "_COMPOSER_ENV_NAME": var.af-composer-name,
+    "_COMPOSER_LOCATION": var.af-composer-location,
+  }
+}
