@@ -23,5 +23,22 @@
         "name": "multiple",
         "type": "INT64",
         "mode":"REQUIRED" 
+        "type": "STRING"
+    },
+    {
+        "name": "number_int",
+        "type": "INTEGER"
+    },
+    {
+        "name": "number_float",
+        "type": "FLOAT"
+    },
+    {
+        "name": "timestamp",
+        "type": "TIMESTAMP"
+    },
+    {
+        "name": "sum",
+        "type": "FLOAT"
     }
 ]

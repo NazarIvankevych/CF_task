@@ -34,7 +34,11 @@ variable "table_id" {
 }
 
 variable "af-composer-name" {
+
     default = "airflow-task"
+
+    default = "airflow"
+
     type = string
     description = "Airflow composer task 3 name"
 }
