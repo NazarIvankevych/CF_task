@@ -1,18 +1,13 @@
 [
     {
-        "name": "message",
-        "type": "STRING",
-        "mode": "REQUIRED"
-    },
-    {
         "name": "number",
         "type": "INT64",
-        "mode": "NULLABLE"
+        "mode": "REQUIRED"
     },
     {
         "name": "age",
         "type": "INT64",
-        "mode": "NULLABLE"
+        "mode": "REQUIRED"
     },
     {
         "name": "timestamp",
@@ -22,23 +17,6 @@
     {
         "name": "multiple",
         "type": "INT64",
-        "mode":"REQUIRED" 
-        "type": "STRING"
-    },
-    {
-        "name": "number_int",
-        "type": "INTEGER"
-    },
-    {
-        "name": "number_float",
-        "type": "FLOAT"
-    },
-    {
-        "name": "timestamp",
-        "type": "TIMESTAMP"
-    },
-    {
-        "name": "sum",
-        "type": "FLOAT"
+        "mode":"NULLABLE" 
     }
 ]

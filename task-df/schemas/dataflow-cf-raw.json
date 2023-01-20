@@ -2,17 +2,17 @@
   {
     "name": "message",
     "type": "STRING",
-    "mode": "REQUIRED"
+    "mode": "NULLABLE"
   },
   {
     "name": "number",
     "type": "INT64",
-    "mode": "NULLABLE"
+    "mode": "REQUIRED"
   },
   {
     "name": "age",
     "type": "INT64",
-    "mode": "NULLABLE"
+    "mode": "REQUIRED"
   },
   {
     "name": "timestamp",

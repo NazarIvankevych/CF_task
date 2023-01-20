@@ -111,7 +111,7 @@ resource "google_cloudbuild_trigger" "dataflow-trigger" {
     owner = "nazarivankevych"
     name = "cf_task"
     push {
-      branch = "airflow-task"
+      branch = "^master$"
     }
   }
 }
