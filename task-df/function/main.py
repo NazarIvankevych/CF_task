@@ -29,8 +29,8 @@ class Parser(beam.DoFn):
     def process(self, line):
         try:
             line = json.loads(line.decode("utf-8"))
-            if not ("message" in line or "number" in line):
-                raise ValueError("Missing required parameters: 'message' and 'number' fields should be specified")
+            if not ("age" in line or "number" in line):
+                raise ValueError("Missing required parameters: 'age' and 'number' fields should be specified")
             line["timestamp"] = datetime.datetime.now()
             yield line
 
@@ -68,20 +68,17 @@ if "__main__" == __name__:
     parser.add_argument(
         "--input_subscription",
         required=True,
-        # default="projects/task-cf-370710/subscriptions/cf-pub_sub-subscription",
-        help='Input PubSub subscription of the form "/subscriptions/<PROJECT_ID>/<SUBSCRIPTION>".',
+        help='Input PubSub subscription of the form "/subscriptions/<PROJECT_ID>/<SUBSCRIPTION>".'
     )
     parser.add_argument(
         "--output_table",
         required=True,
-        # default="../schemas/dataflow-cf-raw.json",
-        help="Output BigQuery table for data",
+        help="Output BigQuery table for data"
     )
     parser.add_argument(
         "--output_error_table",
         required=True,
-        # default="../schemas/dataflow-cf-error-raw.json",
-        help="Output BigQuery table for errors",
+        help="Output BigQuery table for errors"
     )
     parser.add_argument(
         '--project', required=True,
