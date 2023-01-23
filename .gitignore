@@ -1,12 +1,16 @@
 # dirs
 venv/
 .idea/
+
 task-cf/terraform/.terraform/
 task-df/terraform/.terraform/
+task-af/terraform/.terraform/
 task-df/function/__pycache__/
+
 
 
 # files
 task-df/gcp_creds.json
 task-cf/terraform/.terraform.lock.hcl
 task-df/terraform/.terraform.lock.hcl
+task-af/terraform/.terraform.lock.hcl
